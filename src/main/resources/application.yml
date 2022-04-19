@@ -1,0 +1,37 @@
+server:
+  port: ${port}
+
+spring:
+  application:
+    name: rest-api
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${dbip}:3306/jhjeon?autoReconnect=true
+    username: ${dbid}
+    password: ${dbpass}
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  devtools:
+    livereload:
+      enabled: true
+---
+mybatis:
+  type-aliases-package: com.github.parkhana.mapper
+  mapper-locations: mapper/*.xml
+
+---
+logging:
+  config: classpath:logback.xml
+  level:
+    net:
+      chndol:
+        study:
+          mybatissample:
+            mapper: DEBUG
+
+---
+search:
+  server:
+    ip: 127.0.0.1

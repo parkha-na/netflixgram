@@ -1,2 +1,2 @@
 # netflixgram
-springboot를 사용한 게시판
+넷플릭스 SNS 개인 프로젝트
