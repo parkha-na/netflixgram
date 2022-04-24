@@ -36,7 +36,7 @@ public class NetController {
 		} else {
 			logger.error("데이터 입력 오류");
 		}
-		return "/net_list.do";
+		return "redirect:net_list.do";
 	}
 	
 	@RequestMapping("/net_list.do")
