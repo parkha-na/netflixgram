@@ -32,6 +32,11 @@ public class NetController {
 		model.addAttribute("li", service.selectNetList());
 		return "index";
 	}
+
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	public String post(Locale locale, Model model) {
+		return "post";
+	}
 	
 	@RequestMapping("/net_formOK.do")
 	public String net_formOK(HttpServletRequest request, NetVo vo) throws Exception {
@@ -40,30 +45,27 @@ public class NetController {
 		
 		MultipartFile  imgUpdateFile = vo.getImgFile();
 		String fileName =imgUpdateFile.getOriginalFilename();
-		File  f = new File(path+fileName);
-		String onlyFilename ="";
-		String extension="";
+		File f = new File(path+fileName);
+		String onlyFilename = "";
+		String extension = "";
 		
 		long time = System.currentTimeMillis();
 		SimpleDateFormat dayTime=new SimpleDateFormat("HHmmss");
-		String  timeStr = dayTime.format(time);
+		String timeStr = dayTime.format(time);
 		Date now = new Date();
-		if(!imgUpdateFile.isEmpty()) {
-		  if(f.exists()) {
-			// 중복 파일이 존재하면 
-			  System.out.println("동일한 파일 존재하는 경우");
-			  onlyFilename=fileName.substring(0, fileName.indexOf("."));
-			  extension=fileName.substring(fileName.indexOf("."));
-			  fileName =  onlyFilename + "_" + timeStr + extension ;
-			  
-			  imgUpdateFile.transferTo(new File(path+fileName));
-			  
-		  }else{
-			// 중복 파일이 존재하지 않으면   
-			  imgUpdateFile.transferTo(new File(path+fileName));
-			  System.out.println("fileName:" + fileName);
-		  }	
-		  
+		if (!imgUpdateFile.isEmpty()) {
+			if (f.exists()) {
+				// 중복 파일이 존재하면
+				System.out.println("동일한 파일 존재하는 경우");
+				onlyFilename=fileName.substring(0, fileName.indexOf("."));
+				extension=fileName.substring(fileName.indexOf("."));
+				fileName =  onlyFilename + "_" + timeStr + extension ;
+				imgUpdateFile.transferTo(new File(path+fileName));
+			} else {
+				// 중복 파일이 존재하지 않으면
+				imgUpdateFile.transferTo(new File(path+fileName));
+				System.out.println("fileName:" + fileName);
+		  	}
 		}
 		
 		vo.setUploaddate(now);
@@ -76,7 +78,7 @@ public class NetController {
 		} else {
 			logger.error("데이터 입력 오류");
 		}
-		return "redirect:index";
+		return "redirect:/";
 	}
 	
 //	@RequestMapping("/net_list.do")

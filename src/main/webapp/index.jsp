@@ -32,7 +32,7 @@
 <%--    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/index">Home</a></li>--%>
 <%--    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/about">About</a></li>--%>
 <%--    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/post">Sample Post</a></li>--%>
-    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="${path}/net/net_form.jsp">글 작성하기</a></li>
+    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/post">글 작성하기</a></li>
    </ul>
   </div>
  </div>
@@ -57,7 +57,7 @@
     <!-- Post preview-->
     <div class="post-preview">
 <%--      <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>--%>
-      <p><img src="${path}/net/files/${m.img}"/></p>
+      <c:if test="${m.img eq not null}"><p><img src="${path}/net/files/${m.img}"/></p></c:if>
       <p>${m.contents}</p>
       <p class="post-meta">
        Posted by
