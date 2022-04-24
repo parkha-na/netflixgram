@@ -72,7 +72,7 @@
         </div>
         <div class="col-md-2">
 
-            <nav class="blog-pagination" aria-label="Pagination">
+            <nav class="blog-pagination" aria-label="Pagination" id="onclick-test">
                 <a class="btn btn-outline-primary" href="#">글쓰기</a>
             </nav>
 
@@ -90,6 +90,14 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+	
+	$("#onclick-test").on("click", function() {
+		alert("kgkgkgkgk하하하하하하하하하하하하하하하하하");
+	});
+});
+</script>
 
 </body>
 </html>

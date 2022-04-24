@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: rest-api
+    name: netflixgram
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${dbip}:3306/jhjeon?autoReconnect=true
@@ -11,14 +11,14 @@ spring:
     password: ${dbpass}
   mvc:
     view:
-      prefix: /WEB-INF/jsp/
+      prefix: /
       suffix: .jsp
   devtools:
     livereload:
       enabled: true
 ---
 mybatis:
-  type-aliases-package: com.github.parkhana.mapper
+  type-aliases-package: com.github.parkhana.dao
   mapper-locations: mapper/*.xml
 
 ---
@@ -30,8 +30,3 @@ logging:
         study:
           mybatissample:
             mapper: DEBUG
-
----
-search:
-  server:
-    ip: 127.0.0.1
