@@ -1,7 +1,7 @@
 package com.github.parkhana.service;
 
-import com.github.parkhana.data.BoardGame;
-import com.github.parkhana.mapper.BoardGameMapper;
+import com.github.parkhana.data.Board;
+import com.github.parkhana.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,29 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BoardGameService {
+public class BoardService {
 
     @Autowired
-    BoardGameMapper bgMapper;
+    BoardMapper bgMapper;
 
     /**
-     * 보드게임 리스트 가져오기 (DB select)
+     * 게시판 리스트 가져오기 (DB select)
      * @param page
      * @param len
      * @return returnList
      * */
-    public List<BoardGame> selectBoardGameListToDB(int page, int len) {
+    public List<Board> selectBoardListToDB(int page, int len) {
 
-        List<BoardGame> returnList = new ArrayList<>();
-        List<BoardGame> list = bgMapper.selectBoardGameList();
+        List<Board> returnList = new ArrayList<>();
+        List<Board> list = bgMapper.selectBoardList();
 
         int start = 1 + ((page - 1) * len);
         int end = page * len;
 
         for (int cnt = (start - 1); cnt < end; cnt++) {
             if (cnt < list.size()) {
-                BoardGame bg = list.get(cnt);
-                returnList.add(bg);
+                Board board = list.get(cnt);
+                returnList.add(board);
             }
         }
 

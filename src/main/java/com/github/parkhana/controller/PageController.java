@@ -1,6 +1,6 @@
 package com.github.parkhana.controller;
 
-import com.github.parkhana.service.BoardGameService;
+import com.github.parkhana.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,19 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 public class PageController {
 
     @Autowired
-    BoardGameService bgService;
+    BoardService bgService;
 
     @RequestMapping("/")
     public String index(HttpServletRequest httpServletRequest, Model model) {
-//        int page = 1;
-//        int len = 10;
-//        String pageStr = httpServletRequest.getParameter("page");
-//        try {
-//            page = Integer.parseInt(pageStr);
-//        } catch (NumberFormatException e) {
-//            page = 1;
-//        }
-//        model.addAttribute("list", bgService.selectBoardGameListToDB(page, len));
 
         return "index";
     }

@@ -1,6 +1,6 @@
 package com.github.parkhana.controller;
 
-import com.github.parkhana.service.BoardGameService;
+import com.github.parkhana.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +14,9 @@ import java.util.Map;
 public class RestAPIController {
 
     @Autowired
-    BoardGameService bgService;
+    BoardService bgService;
 
-    @RequestMapping("/dnd/boardgame/list")
+    @RequestMapping("/board")
     public Map<String, Object> dndBoardGameList(HttpServletRequest httpServletRequest, Model model) {
 
         Map<String, Object> returnObj = new HashMap<>();
@@ -32,12 +32,12 @@ public class RestAPIController {
         }
 
         returnObj.put("status", true);
-        returnObj.put("list", bgService.selectBoardGameListToDB(page, len));
+        returnObj.put("list", bgService.selectBoardListToDB(page, len));
 
         return returnObj;
     }
 
-    @RequestMapping("/dnd/boardgame/add")
+    @RequestMapping("/board/add")
     public Map<String, Object> dndBoardGameAdd(HttpServletRequest httpServletRequest, Model model) {
 
         Map<String, Object> returnObj = new HashMap<>();
@@ -47,7 +47,7 @@ public class RestAPIController {
         return returnObj;
     }
 
-    @RequestMapping("/dnd/boardgame/update")
+    @RequestMapping("/board/modify")
     public Map<String, Object> dndBoardGameUpdate(HttpServletRequest httpServletRequest, Model model) {
 
         Map<String, Object> returnObj = new HashMap<>();
@@ -57,7 +57,7 @@ public class RestAPIController {
         return returnObj;
     }
 
-    @RequestMapping("/dnd/boardgame/delete")
+    @RequestMapping("/board/delete")
     public Map<String, Object> dndBoardGameDelete(HttpServletRequest httpServletRequest, Model model) {
 
         Map<String, Object> returnObj = new HashMap<>();
