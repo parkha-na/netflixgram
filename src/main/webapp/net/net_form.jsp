@@ -9,7 +9,8 @@
 <font size=5>게시글 입력</font>
 </div><br>
 <div id=div2>
-<form name="f1" action="${path}/net_formOK.do">
+<form name="f1" action="${path}/net_formOK.do" method="post"
+enctype="multipart/form-data">
  <table>
  
  <tr><td>내용</td>
@@ -18,6 +19,8 @@
   <tr><td>닉네임</td>
     <td class=td2>
     <input type=text name="nickname" size=10 ></td></tr>
+  <tr><td>이미지</td>
+    <td class=td2><input type=file name="imgFile"  ></td></tr>
 
  <tr><td colspan=2 align="center">
   <input type=submit value="등록" >

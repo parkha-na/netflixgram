@@ -3,8 +3,8 @@
 <mapper namespace="com.github.parkhana.dao.NetDao">
 
 	<insert id="insertNet" parameterType="com.github.parkhana.vo.NetVo">
-		insert into board (contents, nickname, uploaddate)
-		values(#{contents}, #{nickname}, now())
+		insert into board (contents, nickname, uploaddate, img)
+		values(#{contents}, #{nickname}, now(), #{img})
 	
 	</insert>
 	

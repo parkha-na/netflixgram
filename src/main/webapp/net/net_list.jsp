@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%> 
 
 <section>
  
@@ -17,8 +18,7 @@
 	<td>${m.id}</td>
 	<td>${m.contents}</td>
 	<td>${m.nickname}</td>
-	<td>${m.uploaddate}</td>
-	
+    <td><fmt:formatDate pattern="yyyy.MM.dd" value="${m.uploaddate}"/></td>
 </tr>	
 </c:forEach>
 

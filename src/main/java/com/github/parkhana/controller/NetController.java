@@ -1,6 +1,11 @@
 package com.github.parkhana.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.parkhana.service.NetService;
 import com.github.parkhana.vo.NetVo;
@@ -28,7 +34,41 @@ public class NetController {
 	}
 	
 	@RequestMapping("/net_formOK.do")
-	public String net_formOK(Model model, NetVo vo) {
+	public String net_formOK(HttpServletRequest request, NetVo vo) throws Exception {
+		String path = request.getSession().getServletContext().getRealPath("/net/files/");
+		System.out.println("경로확인 : " + path);
+		
+		MultipartFile  imgUpdateFile = vo.getImgFile();
+		String fileName =imgUpdateFile.getOriginalFilename();
+		File  f = new File(path+fileName);
+		String onlyFilename ="";
+		String extension="";
+		
+		long time = System.currentTimeMillis();
+		SimpleDateFormat dayTime=new SimpleDateFormat("HHmmss");
+		String  timeStr = dayTime.format(time);
+		Date now = new Date();
+		if(!imgUpdateFile.isEmpty()) {
+		  if(f.exists()) {
+			// 중복 파일이 존재하면 
+			  System.out.println("동일한 파일 존재하는 경우");
+			  onlyFilename=fileName.substring(0, fileName.indexOf("."));
+			  extension=fileName.substring(fileName.indexOf("."));
+			  fileName =  onlyFilename + "_" + timeStr + extension ;
+			  
+			  imgUpdateFile.transferTo(new File(path+fileName));
+			  
+		  }else{
+			// 중복 파일이 존재하지 않으면   
+			  imgUpdateFile.transferTo(new File(path+fileName));
+			  System.out.println("fileName:" + fileName);
+		  }	
+		  
+		}
+		
+		vo.setUploaddate(now);
+		vo.setImg(fileName);
+		
 		//System.out.println(vo);
 		int status = service.insertNet(vo);
 		if (status == 1) {
