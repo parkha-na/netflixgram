@@ -19,6 +19,7 @@
 	<td>${m.contents}</td>
 	<td>${m.nickname}</td>
     <td><fmt:formatDate pattern="yyyy.MM.dd" value="${m.uploaddate}"/></td>
+    <td><img src="${path}/net/files/${m.img}"/></td>
 </tr>	
 </c:forEach>
 
