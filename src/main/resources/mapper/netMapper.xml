@@ -9,7 +9,14 @@
 	</insert>
 	
 	<select id="selectNetList" resultType="com.github.parkhana.vo.NetVo">
-		select * from board
+		select
+			id,
+		    contents,
+			nickname,
+		    uploaddate,
+		    recommend,
+		    img
+		  from board
 	</select>
 	
 </mapper>

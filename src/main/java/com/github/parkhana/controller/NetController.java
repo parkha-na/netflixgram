@@ -28,8 +28,8 @@ public class NetController {
 	private NetService service;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		
+	public String index(Locale locale, Model model) {
+		model.addAttribute("li", service.selectNetList());
 		return "index";
 	}
 	
@@ -76,13 +76,13 @@ public class NetController {
 		} else {
 			logger.error("데이터 입력 오류");
 		}
-		return "redirect:net_list.do";
+		return "redirect:index";
 	}
 	
-	@RequestMapping("/net_list.do")
-	public String net_list(Model model) {
-		model.addAttribute("li", service.selectNetList());
-		
-		return "/net/net_list";
-	}
+//	@RequestMapping("/net_list.do")
+//	public String net_list(Model model) {
+//		model.addAttribute("li", service.selectNetList());
+//
+//		return "/net/net_list";
+//	}
 }

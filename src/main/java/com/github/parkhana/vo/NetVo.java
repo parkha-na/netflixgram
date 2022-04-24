@@ -17,8 +17,6 @@ public class NetVo {
 
 	private Date uploaddate;
 
-	private int hits;
-
 	private int recommend;
 
 	// 실제 이미지 파일
