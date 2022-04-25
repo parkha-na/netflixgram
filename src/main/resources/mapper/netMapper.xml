@@ -16,7 +16,9 @@
 		    uploaddate,
 		    recommend,
 		    img
-		  from board
+		  from board limit 0, 10
 	</select>
-	
+	<update id="updateRecommend" parameterType="com.github.parkhana.vo.NetVo">
+		update board set recommend = recommend + 1 where id = #{id}
+	</update>
 </mapper>

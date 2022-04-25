@@ -30,12 +30,25 @@ public class NetController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Locale locale, Model model) {
 		model.addAttribute("li", service.selectNetList());
+
 		return "index";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Locale locale) {
+
+		return "login";
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public String post(Locale locale, Model model) {
 		return "post";
+	}
+	
+	@RequestMapping(value = "/updateRecommend", method = RequestMethod.GET)
+	public String updateRecommend(NetVo vo) {
+		service.updateRecommend(vo);
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/net_formOK.do")
@@ -80,6 +93,7 @@ public class NetController {
 		}
 		return "redirect:/";
 	}
+
 	
 //	@RequestMapping("/net_list.do")
 //	public String net_list(Model model) {

@@ -64,7 +64,7 @@
        <a href="#!">${m.nickname}</a>
        on <fmt:formatDate pattern="yyyy.MM.dd" value="${m.uploaddate}"/>
       </p>
-      <p><i class="fa fa-heart" aria-hidden="true"></i> ${m.recommend}</p>
+      <p><a href="/updateRecommend?id=${m.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${m.recommend}</p>
       <!-- Divider-->
       <hr class="my-4" />
    </c:forEach>
