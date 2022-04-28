@@ -66,8 +66,6 @@ function naverLogout() {
 	setTimeout(function() {
 		closePopUp();
 		}, 1000);
-
-
 }
 </script>
 

@@ -11,4 +11,6 @@ public interface NetService {
 	List<NetVo> selectNetList(int startPage, int endPage);
 
 	void updateRecommend(NetVo vo);
+	
+	void deleteNet(NetVo vo);
 }

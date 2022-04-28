@@ -23,6 +23,12 @@
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
  <div class="container px-4 px-lg-5">
   <a class="navbar-brand" href="/index">NetflixGram</a>
+  <form>
+  <select name=ch1>
+	<option value="nickname">nickname</option>
+	<option value="contents">contents</option>
+  </select>
+  <input name=ch2 type=text><input type=submit value="검색"></form>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
    Menu
    <i class="fas fa-bars"></i>
@@ -56,18 +62,17 @@
    <c:forEach var="m" items="${li}">
     <!-- Post preview-->
     <div class="post-preview">
-<%--      <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>--%>
-<%--      <c:if test="${m.img eq not null}"><p><img src="/imageDownload?fileName=${m.img}"/></p></c:if>--%>
-      <p><img src="/imageDownload?fileName=${m.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></p>
-      <p>${m.contents}</p>
-      <p class="post-meta">
-       Posted by
-       <a href="#!">${m.nickname}</a>
-       on <fmt:formatDate pattern="yyyy.MM.dd" value="${m.uploaddate}"/>
-      </p>
-      <p><a href="/updateRecommend?id=${m.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${m.recommend}</p>
-      <!-- Divider-->
-      <hr class="my-4" />
+        <p><img src="/imageDownload?fileName=${m.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></p>
+        <div align="right">
+            <a href="deleteNet?id=${m.id}">x</a>
+        </div>
+        <p>${m.contents}</p>
+        <p class="post-meta">
+            Posted by <a href="#!">${m.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${m.uploaddate}"/>
+        </p>
+        <p><a href="/updateRecommend?id=${m.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${m.recommend}</p>
+        <!-- Divider-->
+        <hr class="my-4" />
    </c:forEach>
    <!-- Pager-->
    <c:if test="${isNextPage}">
@@ -81,10 +86,12 @@
  <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
    <div class="col-md-10 col-lg-8 col-xl-7">
+   
     <div class="small text-center text-muted fst-italic">Copyright &copy; Park Ha-na 2022</div>
    </div>
   </div>
  </div>
+ 
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

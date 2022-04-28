@@ -41,7 +41,7 @@ public class NetController {
 	private FileService fileService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Locale locale, Model model) {
+	public String index(Locale locale, Model model, NetVo vo) {
 
 		return "redirect:/list";
 	}
@@ -73,7 +73,6 @@ public class NetController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale) {
-
 		return "login";
 	}
 
@@ -124,11 +123,17 @@ public class NetController {
 		byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
 
 		response.setContentType("application/octet-stream");
-		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8")+"\";");
+		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8") + "\";");
 		response.setHeader("Content-Transfer-Encoding", "binary");
 
 		response.getOutputStream().write(fileByte);
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
+	}
+	
+	@RequestMapping(value = "/deleteNet")
+	public String deleteNet(NetVo vo) {
+		netService.deleteNet(vo);
+		return "redirect:/";
 	}
 }

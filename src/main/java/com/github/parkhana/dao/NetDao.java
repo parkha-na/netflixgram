@@ -14,4 +14,6 @@ public interface NetDao {
 	List<NetVo> selectNetList(int startPage, int endPage);
 
 	void updateRecommend(NetVo vo);
+	
+	void deleteNet(NetVo vo);
 }

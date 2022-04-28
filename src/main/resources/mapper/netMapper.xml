@@ -5,7 +5,6 @@
 	<insert id="insertNet" parameterType="com.github.parkhana.vo.NetVo">
 		insert into board (contents, nickname, uploaddate, img)
 		values(#{contents}, #{nickname}, now(), #{img})
-	
 	</insert>
 	
 	<select id="selectNetList" parameterType="Integer" resultType="com.github.parkhana.vo.NetVo">
@@ -17,10 +16,19 @@
 		    recommend,
 		    img
 		  from board
+		  where 1=1
+		  	<if test="ch1 == 'nickname'">
+			  	and nickname like '%' || #{ch2} || '%'		  
+			</if>
+			<if test="ch1 == 'contents'">
+			  	and contents like '%' || #{ch2} || '%'
+			</if>
+		 limit #{startPage}, #{endPage}
 		 order by uploaddate desc
-		  limit #{startPage}, #{endPage}
 	</select>
+	
 	<update id="updateRecommend" parameterType="com.github.parkhana.vo.NetVo">
 		update board set recommend = recommend + 1 where id = #{id}
 	</update>
+	
 </mapper>

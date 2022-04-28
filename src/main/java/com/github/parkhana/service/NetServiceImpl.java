@@ -1,9 +1,7 @@
 package com.github.parkhana.service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.github.parkhana.dao.NetDao;
 import com.github.parkhana.vo.NetVo;
 
@@ -31,4 +29,8 @@ public class NetServiceImpl implements NetService {
 		dao.updateRecommend(vo);
 	}
 
+	@Override
+	public void deleteNet(NetVo vo) {
+		dao.deleteNet(vo);
+	}
 }
