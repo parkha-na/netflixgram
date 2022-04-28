@@ -8,6 +8,7 @@ public interface NetService {
 	
 	int insertNet(NetVo vo);
 	
-	List<NetVo> selectNetList();
+	List<NetVo> selectNetList(int startPage, int endPage);
+
 	void updateRecommend(NetVo vo);
 }

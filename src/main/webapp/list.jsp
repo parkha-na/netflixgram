@@ -57,6 +57,7 @@
     <!-- Post preview-->
     <div class="post-preview">
 <%--      <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>--%>
+      ${m.img}
       <c:if test="${m.img eq not null}"><p><img src="${path}/net/files/${m.img}"/></p></c:if>
       <p>${m.contents}</p>
       <p class="post-meta">
@@ -69,7 +70,9 @@
       <hr class="my-4" />
    </c:forEach>
    <!-- Pager-->
-   <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">더보기 →</a></div>
+   <c:if test="${isNextPage}">
+   <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="/list?page=${page + 1}">더보기 →</a></div>
+   </c:if>
   </div>
  </div>
 </div>

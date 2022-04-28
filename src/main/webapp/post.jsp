@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Clean Blog - Start Bootstrap Theme</title>
+        <title>NetflixGram</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -29,8 +29,8 @@
 <%--                <div class="collapse navbar-collapse" id="navbarResponsive">--%>
 <%--                    <ul class="navbar-nav ms-auto py-4 py-lg-0">--%>
 <%--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>--%>
-<%--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about_example.jsp">About</a></li>--%>
-<%--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post_example.jsp">Sample Post</a></li>--%>
+<%--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.jsp">About</a></li>--%>
+<%--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.jsp">Sample Post</a></li>--%>
 <%--                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.jsp">Contact</a></li>--%>
 <%--                    </ul>--%>
 <%--                </div>--%>
@@ -65,8 +65,15 @@
                                     <textarea class="form-control" id="contents" name="contents" placeholder="내용을 입력해 주세요" style="height: 12rem" data-sb-validations="required"></textarea>
                                     <label for="contents">내용</label>
                                 </div>
-                                <input type="file" name="imgFile">
-                                <br />
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="imgFile" aria-describedby="inputGroupFileAddon01">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                </div>
                                 <!-- Submit Button-->
                                 <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">작성</button>
                                 <button class="btn btn-primary text-uppercase" id="resetButton" type="reset">다시 작성</button>

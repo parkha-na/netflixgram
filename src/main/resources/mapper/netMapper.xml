@@ -8,7 +8,7 @@
 	
 	</insert>
 	
-	<select id="selectNetList" resultType="com.github.parkhana.vo.NetVo">
+	<select id="selectNetList" parameterType="Integer" resultType="com.github.parkhana.vo.NetVo">
 		select
 			id,
 		    contents,
@@ -16,7 +16,9 @@
 		    uploaddate,
 		    recommend,
 		    img
-		  from board limit 0, 10
+		  from board
+		 order by uploaddate desc
+		  limit #{startPage}, #{endPage}
 	</select>
 	<update id="updateRecommend" parameterType="com.github.parkhana.vo.NetVo">
 		update board set recommend = recommend + 1 where id = #{id}
