@@ -57,8 +57,8 @@
     <!-- Post preview-->
     <div class="post-preview">
 <%--      <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>--%>
-      ${m.img}
-      <c:if test="${m.img eq not null}"><p><img src="${path}/net/files/${m.img}"/></p></c:if>
+<%--      <c:if test="${m.img eq not null}"><p><img src="/imageDownload?fileName=${m.img}"/></p></c:if>--%>
+      <p><img src="/imageDownload?fileName=${m.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></p>
       <p>${m.contents}</p>
       <p class="post-meta">
        Posted by

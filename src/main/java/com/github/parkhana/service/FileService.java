@@ -19,10 +19,10 @@ public class FileService {
     @Value("${app.upload.dir:${user.home}}")
     private String uploadDir;
 
-    public void fileUpload(MultipartFile multipartFile) {
+    public void fileUpload(MultipartFile multipartFile, String newFileName) {
         // File.seperator 는 OS종속적이다.
         // Spring에서 제공하는 cleanPath()를 통해서 ../ 내부 점들에 대해서 사용을 억제한다
-        Path copyOfLocation = Paths.get(uploadDir + File.separator + StringUtils.cleanPath(multipartFile.getOriginalFilename()));
+        Path copyOfLocation = Paths.get(uploadDir + File.separator + StringUtils.cleanPath(newFileName));
         try {
             // inputStream을 가져와서
             // copyOfLocation (저장위치)로 파일을 쓴다.
@@ -31,6 +31,9 @@ public class FileService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public String getUploadDirPath() {
+        return uploadDir;
     }
 }

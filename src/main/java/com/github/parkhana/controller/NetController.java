@@ -1,21 +1,29 @@
 package com.github.parkhana.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.github.parkhana.service.FileService;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.parkhana.service.NetService;
@@ -27,7 +35,10 @@ public class NetController {
 	private static final Logger logger = LoggerFactory.getLogger(NetController.class);
 
 	@Autowired
-	private NetService service;
+	private NetService netService;
+
+	@Autowired
+	private FileService fileService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Locale locale, Model model) {
@@ -42,14 +53,14 @@ public class NetController {
 		int pageNum = Integer.parseInt(page);
 		int startPage = ((pageNum - 1) * 10);
 		int endPage = (pageNum * 10) - 1;
-		List<NetVo> boardList = service.selectNetList(startPage, endPage);
+		List<NetVo> boardList = netService.selectNetList(startPage, endPage);
  		model.addAttribute("li", boardList);
 
 		boolean isNextPage = true;
 		int nextPageNum = pageNum + 1;
 		int nextStartPage = (nextPageNum - 1) * 10;
 		int nextEndPage = (nextPageNum * 10) - 1;
-		List<NetVo> nextBoardList = service.selectNetList(nextStartPage, nextEndPage);
+		List<NetVo> nextBoardList = netService.selectNetList(nextStartPage, nextEndPage);
 		if (nextBoardList.size() == 0) {
 			isNextPage = false;
 		}
@@ -73,7 +84,7 @@ public class NetController {
 	
 	@RequestMapping(value = "/updateRecommend", method = RequestMethod.GET)
 	public String updateRecommend(NetVo vo) {
-		service.updateRecommend(vo);
+		netService.updateRecommend(vo);
 		return "redirect:/";
 	}
 	
@@ -81,39 +92,21 @@ public class NetController {
 	public String net_formOK(HttpServletRequest request, NetVo vo) throws Exception {
 //		String path = request.getSession().getServletContext().getRealPath("/net/files/");
 //		System.out.println("경로확인 : " + path);
-		
-		MultipartFile imgUpdateFile = vo.getImgFile();
-		String fileName = imgUpdateFile.getOriginalFilename();
-//		File f = new File(path + fileName);
-		File f = new File(fileName);
-		String onlyFilename = "";
-		String extension = "";
+
+		MultipartFile imgFile = vo.getImgFile();
+		String extension = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf("."), imgFile.getOriginalFilename().length());
+		UUID uuid = UUID.randomUUID();
+		String newFileName = uuid.toString() + extension;
+		fileService.fileUpload(imgFile, newFileName);
 		
 		long time = System.currentTimeMillis();
 		SimpleDateFormat dayTime = new SimpleDateFormat("HHmmss");
 		String timeStr = dayTime.format(time);
 		Date now = new Date();
-		if (!imgUpdateFile.isEmpty()) {
-			if (f.exists()) {
-				// 중복 파일이 존재하면
-				System.out.println("동일한 파일 존재하는 경우");
-				onlyFilename=fileName.substring(0, fileName.indexOf("."));
-				extension=fileName.substring(fileName.indexOf("."));
-				fileName =  onlyFilename + "_" + timeStr + extension ;
-//				imgUpdateFile.transferTo(new File(path + fileName));
-				imgUpdateFile.transferTo(new File(fileName));
-			} else {
-				// 중복 파일이 존재하지 않으면
-//				imgUpdateFile.transferTo(new File(path + fileName));
-				imgUpdateFile.transferTo(new File(fileName));
-				System.out.println("fileName:" + fileName);
-		  	}
-		}
 		vo.setUploaddate(now);
-		vo.setImg(fileName);
-		
-		//System.out.println(vo);
-		int status = service.insertNet(vo);
+		vo.setImg(newFileName);
+
+		int status = netService.insertNet(vo);
 		if (status == 1) {
 			logger.debug("데이터 정상 입력");
 		} else {
@@ -121,5 +114,21 @@ public class NetController {
 		}
 
 		return "redirect:/";
+	}
+
+	@GetMapping("/imageDownload")
+	public void imageDownload(HttpServletResponse response, @RequestParam("fileName") String fileName) throws IOException {
+
+		String path = fileService.getUploadDirPath() + File.separator + fileName;
+
+		byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
+
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8")+"\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+
+		response.getOutputStream().write(fileByte);
+		response.getOutputStream().flush();
+		response.getOutputStream().close();
 	}
 }
