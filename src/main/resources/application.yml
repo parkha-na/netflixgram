@@ -3,7 +3,7 @@ server:
 
 app:
   upload:
-    dir: /Users/freshbread/Library/Mobile Documents/com~apple~CloudDocs/Projects/github/parkha-na/netflixgram/upload
+    dir: ${app.upload.dir}
 
 #servlet:
 #  multipart:
