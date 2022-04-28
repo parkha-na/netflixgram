@@ -2,21 +2,17 @@ package com.github.parkhana.vo;
 
 import java.util.Date;
 
-import org.springframework.web.multipart.MultipartFile;
+import lombok.*;
 
-import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class NetVo {
 
 	private int id;
-
 	private String contents;
-
 	private String nickname;
-
 	private Date uploaddate;
-
 	private int recommend;
 
 	// 실제 이미지 파일

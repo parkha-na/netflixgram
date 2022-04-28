@@ -1,6 +1,16 @@
 server:
   port: ${port}
 
+app:
+  upload:
+    dir: /Users/freshbread/Library/Mobile Documents/com~apple~CloudDocs/Projects/github/parkha-na/netflixgram/upload
+
+#servlet:
+#  multipart:
+#    location: /Users/freshbread/Library/Mobile Documents/com~apple~CloudDocs/Projects/github/parkha-na/netflixgram/upload
+#    maxFileSize: 200MB
+#    maxRequestSize: 100MB
+
 spring:
   application:
     name: netflixgram

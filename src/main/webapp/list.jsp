@@ -78,7 +78,9 @@
       <hr class="my-4" />
    </c:forEach>
    <!-- Pager-->
-   <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">더보기 →</a></div>
+   <c:if test="${isNextPage}">
+   <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="/list?page=${page + 1}">더보기 →</a></div>
+   </c:if>
   </div>
  </div>
 </div>

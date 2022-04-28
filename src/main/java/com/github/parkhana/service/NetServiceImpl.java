@@ -1,26 +1,27 @@
 package com.github.parkhana.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.github.parkhana.dao.NetDao;
 import com.github.parkhana.vo.NetVo;
 
 @Service
 public class NetServiceImpl implements NetService {
 
-	@Autowired
-	private NetDao dao;
-	
+	private final NetDao dao;
+
+	public NetServiceImpl(NetDao dao) {
+		this.dao = dao;
+	}
+
 	@Override
 	public int insertNet(NetVo vo) {
 		return dao.insertNet(vo);
 	}
 
 	@Override
-	public List<NetVo> selectNetList(NetVo vo) {
-		return dao.selectNetList(vo);
+	public List<NetVo> selectNetList(int startPage, int endPage) {
+		return dao.selectNetList(startPage, endPage);
 	}
 
 	@Override
@@ -32,5 +33,4 @@ public class NetServiceImpl implements NetService {
 	public void deleteNet(NetVo vo) {
 		dao.deleteNet(vo);
 	}
-
 }

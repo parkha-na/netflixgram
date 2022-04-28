@@ -34,3 +34,5 @@ hs_err_pid*
 *.iml
 .settings
 .springBeans
+
+resources/static/files

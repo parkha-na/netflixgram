@@ -3,10 +3,12 @@ package com.github.parkhana.controller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +28,40 @@ public class NetController {
 
 	@Autowired
 	private NetService service;
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Locale locale, Model model, NetVo vo) {
-		model.addAttribute("li", service.selectNetList(vo));
 
-		return "index";
+		return "redirect:/list";
+	}
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String list(Locale locale, Model model, HttpServletRequest request) {
+		String page = StringUtils.defaultIfBlank((String) request.getParameter("page"), "1");
+
+		int pageNum = Integer.parseInt(page);
+		int startPage = ((pageNum - 1) * 10);
+		int endPage = (pageNum * 10) - 1;
+		List<NetVo> boardList = service.selectNetList(startPage, endPage);
+ 		model.addAttribute("li", boardList);
+
+		boolean isNextPage = true;
+		int nextPageNum = pageNum + 1;
+		int nextStartPage = (nextPageNum - 1) * 10;
+		int nextEndPage = (nextPageNum * 10) - 1;
+		List<NetVo> nextBoardList = service.selectNetList(nextStartPage, nextEndPage);
+		if (nextBoardList.size() == 0) {
+			isNextPage = false;
+		}
+		model.addAttribute("isNextPage", isNextPage);
+		model.addAttribute("page", pageNum);
+
+
+		return "list";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale) {
-
 		return "login";
 	}
 
@@ -53,17 +78,18 @@ public class NetController {
 	
 	@RequestMapping("/net_formOK.do")
 	public String net_formOK(HttpServletRequest request, NetVo vo) throws Exception {
-		String path = request.getSession().getServletContext().getRealPath("/net/files/");
-		System.out.println("경로확인 : " + path);
+//		String path = request.getSession().getServletContext().getRealPath("/net/files/");
+//		System.out.println("경로확인 : " + path);
 		
-		MultipartFile  imgUpdateFile = vo.getImgFile();
-		String fileName =imgUpdateFile.getOriginalFilename();
-		File f = new File(path+fileName);
+		MultipartFile imgUpdateFile = vo.getImgFile();
+		String fileName = imgUpdateFile.getOriginalFilename();
+//		File f = new File(path + fileName);
+		File f = new File(fileName);
 		String onlyFilename = "";
 		String extension = "";
 		
 		long time = System.currentTimeMillis();
-		SimpleDateFormat dayTime=new SimpleDateFormat("HHmmss");
+		SimpleDateFormat dayTime = new SimpleDateFormat("HHmmss");
 		String timeStr = dayTime.format(time);
 		Date now = new Date();
 		if (!imgUpdateFile.isEmpty()) {
@@ -73,14 +99,15 @@ public class NetController {
 				onlyFilename=fileName.substring(0, fileName.indexOf("."));
 				extension=fileName.substring(fileName.indexOf("."));
 				fileName =  onlyFilename + "_" + timeStr + extension ;
-				imgUpdateFile.transferTo(new File(path+fileName));
+//				imgUpdateFile.transferTo(new File(path + fileName));
+				imgUpdateFile.transferTo(new File(fileName));
 			} else {
 				// 중복 파일이 존재하지 않으면
-				imgUpdateFile.transferTo(new File(path+fileName));
+//				imgUpdateFile.transferTo(new File(path + fileName));
+				imgUpdateFile.transferTo(new File(fileName));
 				System.out.println("fileName:" + fileName);
 		  	}
 		}
-		
 		vo.setUploaddate(now);
 		vo.setImg(fileName);
 		
@@ -91,6 +118,7 @@ public class NetController {
 		} else {
 			logger.error("데이터 입력 오류");
 		}
+
 		return "redirect:/";
 	}
 	
@@ -99,12 +127,4 @@ public class NetController {
 		service.deleteNet(vo);
 		return "redirect:/";
 	}
-
-	
-//	@RequestMapping("/net_list.do")
-//	public String net_list(Model model) {
-//		model.addAttribute("li", service.selectNetList());
-//
-//		return "/net/net_list";
-//	}
 }
