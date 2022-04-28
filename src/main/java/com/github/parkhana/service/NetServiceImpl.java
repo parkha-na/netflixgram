@@ -1,10 +1,14 @@
 package com.github.parkhana.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.parkhana.dao.NetDao;
+import com.github.parkhana.vo.GoodVo;
 import com.github.parkhana.vo.NetVo;
 
 @Service
@@ -19,18 +23,13 @@ public class NetServiceImpl implements NetService {
 	}
 
 	@Override
-	public List<NetVo> selectNetList(NetVo vo) {
-		return dao.selectNetList(vo);
+	public List<NetVo> selectNetList() {
+		return dao.selectNetList();
 	}
 
 	@Override
 	public void updateRecommend(NetVo vo) {
 		dao.updateRecommend(vo);
-	}
-
-	@Override
-	public void deleteNet(NetVo vo) {
-		dao.deleteNet(vo);
 	}
 
 }

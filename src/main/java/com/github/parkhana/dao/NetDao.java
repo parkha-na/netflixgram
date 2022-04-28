@@ -11,7 +11,6 @@ public interface NetDao {
 	
 	int insertNet(NetVo vo);
 	
-	List<NetVo> selectNetList(NetVo vo);
+	List<NetVo> selectNetList();
 	void updateRecommend(NetVo vo);
-	void deleteNet(NetVo vo);
 }

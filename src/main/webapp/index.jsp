@@ -23,12 +23,6 @@
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
  <div class="container px-4 px-lg-5">
   <a class="navbar-brand" href="/index">NetflixGram</a>
-  <form>
-  <select name=ch1>
-	<option value="nickname">nickname</option>
-	<option value="contents">contents</option>
-  </select>
-  <input name=ch2 type=text><input type=submit value="검색"></form>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
    Menu
    <i class="fas fa-bars"></i>
@@ -63,9 +57,6 @@
     <!-- Post preview-->
     <div class="post-preview">
 <%--      <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>--%>
-		<div align="right">
-		<a href="deleteNet?id=${m.id}">x</a>
-		</div>
       <c:if test="${m.img eq not null}"><p><img src="${path}/net/files/${m.img}"/></p></c:if>
       <p>${m.contents}</p>
       <p class="post-meta">
@@ -87,12 +78,10 @@
  <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
    <div class="col-md-10 col-lg-8 col-xl-7">
-   
     <div class="small text-center text-muted fst-italic">Copyright &copy; Park Ha-na 2022</div>
    </div>
   </div>
  </div>
- 
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
