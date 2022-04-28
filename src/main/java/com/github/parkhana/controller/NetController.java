@@ -28,8 +28,8 @@ public class NetController {
 	private NetService service;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Locale locale, Model model) {
-		model.addAttribute("li", service.selectNetList());
+	public String index(Locale locale, Model model, NetVo vo) {
+		model.addAttribute("li", service.selectNetList(vo));
 
 		return "index";
 	}
@@ -91,6 +91,12 @@ public class NetController {
 		} else {
 			logger.error("데이터 입력 오류");
 		}
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/deleteNet")
+	public String deleteNet(NetVo vo) {
+		service.deleteNet(vo);
 		return "redirect:/";
 	}
 

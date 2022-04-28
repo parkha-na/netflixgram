@@ -8,6 +8,7 @@ public interface NetService {
 	
 	int insertNet(NetVo vo);
 	
-	List<NetVo> selectNetList();
+	List<NetVo> selectNetList(NetVo vo);
 	void updateRecommend(NetVo vo);
+	void deleteNet(NetVo vo);
 }
