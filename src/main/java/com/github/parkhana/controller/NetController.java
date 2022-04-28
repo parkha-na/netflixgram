@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,20 +44,29 @@ public class NetController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Locale locale, Model model, HttpServletRequest request) {
+	public String list(Locale locale, Model model, HttpServletRequest request, NetVo vo) {
 		String page = StringUtils.defaultIfBlank((String) request.getParameter("page"), "1");
+		String ch1 = StringUtils.defaultIfBlank((String) request.getParameter("ch1"), "");
+		String ch2 = StringUtils.defaultIfBlank((String) request.getParameter("ch2"), "");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ch1", ch1);
+		params.put("ch2", ch2);
 
 		int pageNum = Integer.parseInt(page);
 		int startPage = ((pageNum - 1) * 10);
 		int endPage = (pageNum * 10) - 1;
-		List<NetVo> boardList = netService.selectNetList(startPage, endPage);
+		params.put("startPage", startPage);
+		params.put("endPage", endPage);
+		List<NetVo> boardList = netService.selectNetList(params);
  		model.addAttribute("li", boardList);
 
 		boolean isNextPage = true;
 		int nextPageNum = pageNum + 1;
 		int nextStartPage = (nextPageNum - 1) * 10;
 		int nextEndPage = (nextPageNum * 10) - 1;
-		List<NetVo> nextBoardList = netService.selectNetList(nextStartPage, nextEndPage);
+		params.put("startPage", nextStartPage);
+		params.put("endPage", nextEndPage);
+		List<NetVo> nextBoardList = netService.selectNetList(params);
 		if (nextBoardList.size() == 0) {
 			isNextPage = false;
 		}

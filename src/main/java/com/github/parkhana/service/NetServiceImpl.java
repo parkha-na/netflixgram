@@ -1,6 +1,8 @@
 package com.github.parkhana.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import com.github.parkhana.dao.NetDao;
 import com.github.parkhana.vo.NetVo;
@@ -20,8 +22,8 @@ public class NetServiceImpl implements NetService {
 	}
 
 	@Override
-	public List<NetVo> selectNetList(int startPage, int endPage) {
-		return dao.selectNetList(startPage, endPage);
+	public List<NetVo> selectNetList(Map<String, Object> params) {
+		return dao.selectNetList(params);
 	}
 
 	@Override

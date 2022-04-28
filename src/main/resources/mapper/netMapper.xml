@@ -7,7 +7,7 @@
 		values(#{contents}, #{nickname}, now(), #{img})
 	</insert>
 	
-	<select id="selectNetList" parameterType="Integer" resultType="com.github.parkhana.vo.NetVo">
+	<select id="selectNetList" parameterType="HashMap" resultType="com.github.parkhana.vo.NetVo">
 		select
 			id,
 		    contents,
@@ -18,13 +18,13 @@
 		  from board
 		  where 1=1
 		  	<if test="ch1 == 'nickname'">
-			  	and nickname like '%' || #{ch2} || '%'		  
+			  	and nickname like CONCAT('%', #{ch2}, '%')
 			</if>
 			<if test="ch1 == 'contents'">
-			  	and contents like '%' || #{ch2} || '%'
+			  	and contents like CONCAT('%', #{ch2}, '%')
 			</if>
-		 limit #{startPage}, #{endPage}
 		 order by uploaddate desc
+		limit #{startPage}, #{endPage}
 	</select>
 	
 	<update id="updateRecommend" parameterType="com.github.parkhana.vo.NetVo">

@@ -1,6 +1,7 @@
 package com.github.parkhana.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +12,7 @@ public interface NetDao {
 	
 	int insertNet(NetVo vo);
 	
-	List<NetVo> selectNetList(int startPage, int endPage);
+	List<NetVo> selectNetList(Map<String, Object> params);
 
 	void updateRecommend(NetVo vo);
 	
