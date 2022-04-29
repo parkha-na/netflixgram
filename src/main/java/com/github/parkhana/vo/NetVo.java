@@ -13,6 +13,7 @@ public class NetVo {
 	private String nickname;
 	private Date uploaddate;
 	private int recommend;
+	private int replyCnt;
 
 	// 실제 이미지 파일
 	private MultipartFile imgFile;
@@ -20,7 +21,4 @@ public class NetVo {
 	private String ch1;
 	private String ch2;
 	private int K1;
-	private int replynumber;
-	private String replynickname;
-	private String replycontents;
 }

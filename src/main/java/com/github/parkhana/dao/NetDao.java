@@ -3,6 +3,7 @@ package com.github.parkhana.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.github.parkhana.vo.ReplyVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.github.parkhana.vo.NetVo;
@@ -14,11 +15,15 @@ public interface NetDao {
 	
 	List<NetVo> selectNetList(Map<String, Object> params);
 
-	void updateRecommend(NetVo vo);
+	int updateRecommend(NetVo vo);
 	
-	void deleteNet(NetVo vo);
+	int deleteNet(NetVo vo);
+
 	NetVo TOTALREPLY(NetVo vo);
-	List<NetVo> selectReplyList(NetVo vo);
-	List<NetVo> selectBoardList(NetVo vo);
-	void insertReply(NetVo vo);
+
+	List<ReplyVo> selectReplyList(NetVo vo);
+
+	NetVo selectNet(NetVo vo);
+
+	int insertReply(ReplyVo vo);
 }

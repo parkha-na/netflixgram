@@ -44,36 +44,28 @@
  </div>
 </nav>
 <!-- Page Header-->
-<header class="masthead" style="background-color: black;">
- <div class="container position-relative px-4 px-lg-5">
-  <div class="row gx-4 gx-lg-5 justify-content-center">
-   <div class="col-md-10 col-lg-12 col-xl-12">
-    <div class="site-heading">
-     <h1><p style="color:red;">N</p></h1>
-    </div>
-   </div>
-  </div>
- </div>
+<header class="masthead">
 </header>
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
  <div class="row gx-4 gx-lg-5 justify-content-center">
   <div class="col-md-10 col-lg-8 col-xl-7">
-   <c:forEach var="m" items="${li}">
+   <c:forEach var="net" items="${li}">
     <!-- Post preview-->
     <div class="post-preview">
-        <p><img src="/imageDownload?fileName=${m.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></p>
+        <p><img src="/imageDownload?fileName=${net.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></p>
         <div align="right">
-            <a href="deleteNet?id=${m.id}">x</a>
+            <a href="deleteNet?id=${net.id}">x</a>
         </div>
         <p>${m.contents}</p>
         <p class="post-meta">
-            Posted by <a href="#!">${m.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${m.uploaddate}"/>
+            Posted by <a href="#!">${net.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${net.uploaddate}"/>
         </p>
-        <p><a href="/updateRecommend?id=${m.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${m.recommend}</p>
-        <a href="/reply?id=${m.id}">댓글 ${K1}개 모두 보기</a>
+        <p><a href="/updateRecommend?id=${net.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${net.recommend}</p>
+        <a href="/reply?id=${net.id}">댓글 ${net.replyCnt}개 모두 보기</a>
         <!-- Divider-->
         <hr class="my-4" />
+    </div>
    </c:forEach>
    <!-- Pager-->
    <c:if test="${isNextPage}">
@@ -87,12 +79,10 @@
  <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 justify-content-center">
    <div class="col-md-10 col-lg-8 col-xl-7">
-   
     <div class="small text-center text-muted fst-italic">Copyright &copy; Park Ha-na 2022</div>
    </div>
   </div>
  </div>
- 
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

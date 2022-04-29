@@ -3,6 +3,7 @@ package com.github.parkhana.service;
 import java.util.List;
 import java.util.Map;
 
+import com.github.parkhana.vo.ReplyVo;
 import org.springframework.stereotype.Service;
 import com.github.parkhana.dao.NetDao;
 import com.github.parkhana.vo.NetVo;
@@ -27,13 +28,13 @@ public class NetServiceImpl implements NetService {
 	}
 
 	@Override
-	public void updateRecommend(NetVo vo) {
-		dao.updateRecommend(vo);
+	public int updateRecommend(NetVo vo) {
+		return dao.updateRecommend(vo);
 	}
 
 	@Override
-	public void deleteNet(NetVo vo) {
-		dao.deleteNet(vo);
+	public int deleteNet(NetVo vo) {
+		return dao.deleteNet(vo);
 	}
 
 	@Override
@@ -42,17 +43,17 @@ public class NetServiceImpl implements NetService {
 	}
 
 	@Override
-	public List<NetVo> selectReplyList(NetVo vo) {
+	public List<ReplyVo> selectReplyList(NetVo vo) {
 		return dao.selectReplyList(vo);
 	}
 
 	@Override
-	public List<NetVo> selectBoardList(NetVo vo) {
-		return dao.selectBoardList(vo);
+	public NetVo selectNet(NetVo vo) {
+		return dao.selectNet(vo);
 	}
 
 	@Override
-	public void insertReply(NetVo vo) {
-		dao.insertReply(vo);
+	public int insertReply(ReplyVo vo) {
+		return dao.insertReply(vo);
 	}
 }

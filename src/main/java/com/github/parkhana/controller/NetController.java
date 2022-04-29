@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.parkhana.service.FileService;
+import com.github.parkhana.vo.ReplyVo;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -51,8 +52,8 @@ public class NetController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ch1", ch1);
 		params.put("ch2", ch2);
-		NetVo k = netService.TOTALREPLY(vo);
-		model.addAttribute("K1", k.getK1());
+		//NetVo k = netService.TOTALREPLY(vo);
+		//model.addAttribute("K1", k.getK1());
 
 		int pageNum = Integer.parseInt(page);
 		int startPage = ((pageNum - 1) * 10);
@@ -60,6 +61,10 @@ public class NetController {
 		params.put("startPage", startPage);
 		params.put("endPage", endPage);
 		List<NetVo> boardList = netService.selectNetList(params);
+		for (NetVo netVo : boardList) {
+			NetVo resultVo = netService.TOTALREPLY(netVo);
+			netVo.setReplyCnt(resultVo.getReplyCnt());
+		}
  		model.addAttribute("li", boardList);
 
 		boolean isNextPage = true;
@@ -74,7 +79,6 @@ public class NetController {
 		}
 		model.addAttribute("isNextPage", isNextPage);
 		model.addAttribute("page", pageNum);
-
 
 		return "list";
 	}
@@ -147,14 +151,15 @@ public class NetController {
 	
 	@RequestMapping(value = "/reply", method = RequestMethod.GET)
 	public String reply(Model model, NetVo vo) {
-		model.addAttribute("b", netService.selectBoardList(vo));
+		model.addAttribute("b", netService.selectNet(vo));
 		model.addAttribute("r", netService.selectReplyList(vo));
 		
 		return "reply";
 	}
 	
 	@RequestMapping(value = "/insertReply")
-	public void insertReply(NetVo vo) {
+	public String insertReply(Model model, ReplyVo vo) {
 		netService.insertReply(vo);
+		return "redirect:/reply?id=" + vo.getBoardId();
 	}
 }

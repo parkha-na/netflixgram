@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.parkhana.vo.NetVo;
+import com.github.parkhana.vo.ReplyVo;
 
 public interface NetService {
 	
@@ -11,11 +12,15 @@ public interface NetService {
 	
 	List<NetVo> selectNetList(Map<String, Object> params);
 
-	void updateRecommend(NetVo vo);
+	int updateRecommend(NetVo vo);
 	
-	void deleteNet(NetVo vo);
+	int deleteNet(NetVo vo);
+
 	NetVo TOTALREPLY(NetVo vo);
-	List<NetVo> selectReplyList(NetVo vo);
-	List<NetVo> selectBoardList(NetVo vo);
-	void insertReply(NetVo vo);
+
+	List<ReplyVo> selectReplyList(NetVo vo);
+
+	NetVo selectNet(NetVo vo);
+
+	int insertReply(ReplyVo vo);
 }
