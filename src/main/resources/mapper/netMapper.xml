@@ -14,6 +14,9 @@
 		insert into board (contents, nickname, uploaddate, img)
 		values(#{contents}, #{nickname}, now(), #{img})
 	</insert>
+	<delete id="deleteNet" parameterType="com.github.parkhana.vo.NetVo">
+		delete from board where id = #{id}
+	</delete>
 	
 	<select id="selectNetList" parameterType="HashMap" resultType="com.github.parkhana.vo.NetVo">
 		select
