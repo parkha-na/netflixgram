@@ -40,4 +40,19 @@ public class NetServiceImpl implements NetService {
 	public NetVo TOTALREPLY(NetVo vo) {
 		return dao.TOTALREPLY(vo);
 	}
+
+	@Override
+	public List<NetVo> selectReplyList(NetVo vo) {
+		return dao.selectReplyList(vo);
+	}
+
+	@Override
+	public List<NetVo> selectBoardList(NetVo vo) {
+		return dao.selectBoardList(vo);
+	}
+
+	@Override
+	public void insertReply(NetVo vo) {
+		dao.insertReply(vo);
+	}
 }

@@ -144,4 +144,17 @@ public class NetController {
 		netService.deleteNet(vo);
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value = "/reply", method = RequestMethod.GET)
+	public String reply(Model model, NetVo vo) {
+		model.addAttribute("b", netService.selectBoardList(vo));
+		model.addAttribute("r", netService.selectReplyList(vo));
+		
+		return "reply";
+	}
+	
+	@RequestMapping(value = "/insertReply")
+	public void insertReply(NetVo vo) {
+		netService.insertReply(vo);
+	}
 }

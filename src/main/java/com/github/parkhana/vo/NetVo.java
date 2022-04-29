@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class NetVo {
-
 	private int id;
 	private String contents;
 	private String nickname;
@@ -21,4 +20,7 @@ public class NetVo {
 	private String ch1;
 	private String ch2;
 	private int K1;
+	private int replynumber;
+	private String replynickname;
+	private String replycontents;
 }

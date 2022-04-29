@@ -41,5 +41,20 @@
 	<select id="TOTALREPLY"  resultMap="netResultMap" parameterType="com.github.parkhana.vo.NetVo">
 	   select count(*) as B1 from reply_board
 	</select>
-
+	<select id="selectReplyList" resultType="com.github.parkhana.vo.NetVo">
+		select replynickname, replycontents from reply_board
+	</select>
+	<select id="selectBoardList" resultType="com.github.parkhana.vo.NetVo">
+		select
+		    contents,
+			nickname,
+		    uploaddate,
+		    recommend,
+		    img
+		  from board where id = #{id}
+	</select>
+	<insert id="insertReply" parameterType="com.github.parkhana.vo.NetVo">
+		INSERT into reply_board(replynickname, replycontents)
+		VALUES(#{replynickname},#{replycontents});
+	</insert>
 </mapper>

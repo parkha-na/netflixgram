@@ -71,7 +71,7 @@
             Posted by <a href="#!">${m.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${m.uploaddate}"/>
         </p>
         <p><a href="/updateRecommend?id=${m.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${m.recommend}</p>
-        <a href="/reply.jsp">댓글 ${K1}개 모두 보기</a>
+        <a href="/reply?id=${m.id}">댓글 ${K1}개 모두 보기</a>
         <!-- Divider-->
         <hr class="my-4" />
    </c:forEach>

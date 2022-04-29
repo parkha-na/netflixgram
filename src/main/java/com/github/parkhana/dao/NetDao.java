@@ -18,4 +18,7 @@ public interface NetDao {
 	
 	void deleteNet(NetVo vo);
 	NetVo TOTALREPLY(NetVo vo);
+	List<NetVo> selectReplyList(NetVo vo);
+	List<NetVo> selectBoardList(NetVo vo);
+	void insertReply(NetVo vo);
 }
