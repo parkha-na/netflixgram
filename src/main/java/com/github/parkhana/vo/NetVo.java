@@ -20,4 +20,5 @@ public class NetVo {
 	private String img; // 테이블 이미지 이름
 	private String ch1;
 	private String ch2;
+	private int K1;
 }

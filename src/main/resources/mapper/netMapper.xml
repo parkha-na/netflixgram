@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.parkhana.dao.NetDao">
-
+	<resultMap type="com.github.parkhana.vo.NetVo" id="netResultMap">
+	
+	  <id property ="replynumber"  column="replynumber"  />
+	  
+	    <!-- property 값은 Vo 의 필드명 , column의 값은 SQL 구문의 칼럼명 -->
+	    
+	    <result property ="K1"  column="B1" />
+	    
+	</resultMap>
 	<insert id="insertNet" parameterType="com.github.parkhana.vo.NetVo">
 		insert into board (contents, nickname, uploaddate, img)
 		values(#{contents}, #{nickname}, now(), #{img})
@@ -30,5 +38,8 @@
 	<update id="updateRecommend" parameterType="com.github.parkhana.vo.NetVo">
 		update board set recommend = recommend + 1 where id = #{id}
 	</update>
-	
+	<select id="TOTALREPLY"  resultMap="netResultMap" parameterType="com.github.parkhana.vo.NetVo">
+	   select count(*) as B1 from reply_board
+	</select>
+
 </mapper>

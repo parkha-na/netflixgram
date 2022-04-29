@@ -35,4 +35,9 @@ public class NetServiceImpl implements NetService {
 	public void deleteNet(NetVo vo) {
 		dao.deleteNet(vo);
 	}
+
+	@Override
+	public NetVo TOTALREPLY(NetVo vo) {
+		return dao.TOTALREPLY(vo);
+	}
 }

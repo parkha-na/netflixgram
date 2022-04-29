@@ -17,4 +17,5 @@ public interface NetDao {
 	void updateRecommend(NetVo vo);
 	
 	void deleteNet(NetVo vo);
+	NetVo TOTALREPLY(NetVo vo);
 }

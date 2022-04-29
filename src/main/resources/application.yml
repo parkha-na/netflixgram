@@ -4,7 +4,7 @@ server:
 app:
   upload:
     jhjeon: /Users/freshbread/Library/Mobile Documents/com~apple~CloudDocs/Projects/github/parkha-na/netflixgram/upload
-    hana: /Users/freshbread/Library/Mobile Documents/com~apple~CloudDocs/Projects/github/parkha-na/netflixgram/upload
+    hana: C:/Users/white/Documents/workspace-spring-tool-suite-4-4.14.0.RELEASE/netflixgram/src/main/webapp/net/files
 
 #servlet:
 #  multipart:

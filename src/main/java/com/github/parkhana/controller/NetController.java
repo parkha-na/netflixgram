@@ -51,6 +51,8 @@ public class NetController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ch1", ch1);
 		params.put("ch2", ch2);
+		NetVo k = netService.TOTALREPLY(vo);
+		model.addAttribute("K1", k.getK1());
 
 		int pageNum = Integer.parseInt(page);
 		int startPage = ((pageNum - 1) * 10);

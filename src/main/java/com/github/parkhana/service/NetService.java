@@ -14,4 +14,5 @@ public interface NetService {
 	void updateRecommend(NetVo vo);
 	
 	void deleteNet(NetVo vo);
+	NetVo TOTALREPLY(NetVo vo);
 }
