@@ -41,6 +41,12 @@ public class NetController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Locale locale, Model model, NetVo vo) {
 
+		return "redirect:/login";
+	}
+
+	@RequestMapping(value = "/naverLogin", method = RequestMethod.GET)
+	public String naverLogin(Locale locale, Model model, HttpServletRequest request) {
+
 		return "redirect:/list";
 	}
 	

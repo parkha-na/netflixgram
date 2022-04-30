@@ -22,7 +22,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
  <div class="container px-4 px-lg-5">
-  <a class="navbar-brand" href="/index">NetflixGram</a>
+  <a class="navbar-brand" href="/">NetflixGram</a>
   <form>
   <select name=ch1>
 	<option value="nickname">nickname</option>
