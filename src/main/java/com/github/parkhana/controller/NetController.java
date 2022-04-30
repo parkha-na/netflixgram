@@ -1,8 +1,10 @@
 package com.github.parkhana.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -10,9 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.parkhana.service.FileService;
+import com.github.parkhana.service.UserService;
 import com.github.parkhana.vo.ReplyVo;
+import com.github.parkhana.vo.Users;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +42,70 @@ public class NetController {
 	private NetService netService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private FileService fileService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Locale locale, Model model, NetVo vo) {
-
 		return "redirect:/login";
 	}
 
-	@RequestMapping(value = "/naverLogin", method = RequestMethod.GET)
-	public String naverLogin(Locale locale, Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Locale locale) {
+		return "login";
+	}
+
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	public String post(Locale locale, Model model) {
+		return "post";
+	}
+
+	@RequestMapping(value = "/callback", method = RequestMethod.GET)
+	public String callback(Locale locale, Model model, HttpServletRequest request) {
+		String code = request.getParameter("code");
+		String state = request.getParameter("state");
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", code);
+		params.put("state", state);
+		JSONObject tokenObject = userService.getNaverToken(params);
+		Map<String, Object> tokenMap = new HashMap<>();
+		for (Object keyObj : tokenObject.keySet()) {
+			String key = (String) keyObj;
+			tokenMap.put(key, tokenObject.get(key));
+		}
+
+		JSONObject userInfoObject = userService.getNaverUserProfile(tokenMap);
+		Map<String, Object> userInfoMap = new HashMap<>();
+		for (Object keyObj : userInfoObject.keySet()) {
+			String key = (String) keyObj;
+			Object value = userInfoObject.get(key);
+			userInfoMap.put(key, userInfoObject.get(key));
+		}
+
+		JSONObject response = (JSONObject) userInfoMap.get("response");
+		Map<String, Object> checkUserParams = new HashMap<>();
+		Users user = new Users();
+		for (Object keyObj : response.keySet()) {
+			String key = (String) keyObj;
+			Object value = response.get(key);
+			checkUserParams.put(key, value);
+			user.put(key, value);
+		}
+		checkUserParams.put("sns_type", "naver");
+		user.setSns_type("naver");
+
+		boolean checkUser = userService.checkUser(checkUserParams);
+		if (checkUser) {
+			// TODO 기존 회원이면 세션만 생성
+		} else {
+			// TODO 처음 오는 사람이면 유저 데이터 INSERT + 세션 생성
+			int status = userService.insertUser(user);
+			if (status == 1) {
+				System.out.println("회원 정보 입력을 완료했습니다.");
+			}
+		}
 
 		return "redirect:/list";
 	}
@@ -87,16 +147,6 @@ public class NetController {
 		model.addAttribute("page", pageNum);
 
 		return "list";
-	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Locale locale) {
-		return "login";
-	}
-
-	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	public String post(Locale locale, Model model) {
-		return "post";
 	}
 	
 	@RequestMapping(value = "/updateRecommend", method = RequestMethod.GET)
