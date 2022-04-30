@@ -5,22 +5,72 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	body{
+		background-color:#000000;
+		margin:0;
+	}
+
+	a:link {
+	  color: #000000;
+	  background-color: transparent;
+	  text-decoration: none;
+	}
+	
+	a:visited {
+	  color: #000000;
+	  background-color: transparent;
+	  text-decoration: none;
+	}
+	
+	a:hover {
+	  color: #000000;
+	  background-color: transparent;
+	  text-decoration: underline;
+	}
+	
+	a:active {
+	  color: #000000;
+	  background-color: transparent;
+	  text-decoration: underline;
+	}
+	.wrapper {
+		display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  min-height: 100vh;
+	}
+	.item {
+		text-align: center;
+	  padding: 50px;
+	  font-weight: 900;
+	  border-style:outset;
+	}
+	p {
+		font-size: 2em;
+		text-align: center;
+		color: #ff0000;
+	}
+	span {
+		background-color: #00ff00;
+	}
+</style>
 </head>
 <body>
-<ul>
-	<li>
+
+<div class="wrapper">
+	<div class="item">
+		<p>Netflixgram</p>
       <!-- 아래와같이 아이디를 꼭 써준다. -->
       <a id="naverIdLogin_loginButton" href="javascript:void(0)">
           <span>네이버 로그인</span>
       </a>
-	</li>
-	<li onclick="naverLogout(); return false;">
-      <a href="javascript:void(0)">
+      <br>
+      <a href="javascript:void(0)" onclick="naverLogout(); return false;">
           <span>네이버 로그아웃</span>
       </a>
-	</li>
-</ul>
-
+     </div>
+</div>
 <!-- 네이버 스크립트 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 
