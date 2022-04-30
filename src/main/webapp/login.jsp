@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="google-signin-client_id" content="876712575275-dhfn70sci1qj97a4assntjc3c6e2g7fn.apps.googleusercontent.com">
 <title>Insert title here</title>
 <style type="text/css">
 	body{
@@ -51,8 +52,11 @@
 		text-align: center;
 		color: #ff0000;
 	}
-	span {
+	#naver {
 		background-color: #00ff00;
+	}
+	#googlesignout {
+		color: #ffffff;
 	}
 </style>
 </head>
@@ -60,15 +64,18 @@
 
 <div class="wrapper">
 	<div class="item">
-		<p>Netflixgram</p>
+		<p>NETFLIXGRAM</p>
+		<div class="g-signin2" data-onsuccess="onSignIn"></div><br>
+		<a href="#" onclick="signOut()" id="googlesignout">Sign out</a><br>
       <!-- 아래와같이 아이디를 꼭 써준다. -->
       <a id="naverIdLogin_loginButton" href="javascript:void(0)">
-          <span>네이버 로그인</span>
+          <span id="naver">네이버 로그인</span>
       </a>
       <br>
       <a href="javascript:void(0)" onclick="naverLogout(); return false;">
-          <span>네이버 로그아웃</span>
+          <span id="naver">네이버 로그아웃</span>
       </a>
+      
      </div>
 </div>
 <!-- 네이버 스크립트 -->
@@ -122,7 +129,22 @@ function naverLogout() {
 	
 	
 }
+
+function onSignIn(googleUser) {
+	var profile = googleUser.getBasicProfile();
+	console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead
+	console.log('Name: ' + profile.getName());
+	console.log('Image URL: ' + profile.getImageUrl());
+	console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present
+}
+
+function signOut() {
+	var auth2 = gapi.auth2.getAuthInstance();
+	auth2.signOut().then(function () {
+		console.log('User signed out.');
+	});
+}
 </script>
- 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 </html>
