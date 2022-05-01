@@ -7,7 +7,7 @@
         values (
             #{name},
             #{nickname},
-            #{name},
+            #{sns_id},
             #{sns_type},
             #{birthday},
             #{profile_image},
@@ -36,7 +36,7 @@
           from users
          where 1=1
            and sns_type = #{sns_type}
-           and sns_id = #{sns_id}
+           and sns_id = #{id}
     </select>
 
 </mapper>
