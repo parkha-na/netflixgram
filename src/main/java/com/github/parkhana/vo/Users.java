@@ -1,26 +1,38 @@
 package com.github.parkhana.vo;
 
-import lombok.Data;
+import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Date;
-import java.util.Map;
+
+import lombok.Data;
+
 
 @Data
 public class Users {
-
-    private int id;
+	private int id;
+	
     private String name;
+
     private String email;
+
     private String nickname;
+
     private String sns_id;
+
     private String sns_type;
+
     private String birthday;
+
     private String profile_image;
+
     private String gender;
+
     private String birthyear;
+	
     private String mobile;
+
     private String mobile_e164;
+
     private Date create_date;
 
     public void put(String key, Object value) {

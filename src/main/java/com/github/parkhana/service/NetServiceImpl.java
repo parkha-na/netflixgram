@@ -65,4 +65,9 @@ public class NetServiceImpl implements NetService {
 	public String getServerLocation() {
 		return uploadDirTarget;
 	}
+
+	@Override
+	public void deleteReply(NetVo vo) {
+		dao.deleteReply(vo);
+	}
 }

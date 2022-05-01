@@ -16,6 +16,8 @@ app:
 spring:
   application:
     name: netflixgram
+  main:
+    allow-circular-references: true
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${dbip}:3306/jhjeon?autoReconnect=true
@@ -42,3 +44,16 @@ logging:
         study:
           mybatissample:
             mapper: DEBUG
+spring:
+  security:
+      oauth2:
+        client:
+          registration:
+            google:
+              client-id: 876712575275-dhfn70sci1qj97a4assntjc3c6e2g7fn.apps.googleusercontent.com
+              client-secret: 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
+              redirectUri: "http://localhost:8081/login/oauth2/code/google"
+              scope:
+                - profile
+                - email
+          

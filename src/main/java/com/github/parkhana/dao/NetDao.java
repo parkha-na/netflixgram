@@ -26,4 +26,5 @@ public interface NetDao {
 	NetVo selectNet(NetVo vo);
 
 	int insertReply(ReplyVo vo);
+	void deleteReply(NetVo vo);
 }
