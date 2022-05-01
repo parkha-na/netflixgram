@@ -57,7 +57,7 @@ public class NetController {
 	public String login(Locale locale, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
-		if (loginUser != null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+		if (loginUser != null) {	/* 세션에 회원 데이터가 있으면 리스트 페이지로 이동 */
 			return "redirect:/list";
 		}
 
@@ -65,7 +65,13 @@ public class NetController {
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	public String post(Locale locale, Model model) {
+	public String post(Locale locale, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
+		model.addAttribute("loginUser", loginUser);
 		return "post";
 	}
 
@@ -120,9 +126,10 @@ public class NetController {
 	public String list(Locale locale, Model model, HttpServletRequest request, NetVo vo) {
 		HttpSession session = request.getSession(false);
 		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
-		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
 			return "redirect:/login";
 		}
+		model.addAttribute("loginUser", loginUser);
 
 		String page = StringUtils.defaultIfBlank((String) request.getParameter("page"), "1");
 		String ch1 = StringUtils.defaultIfBlank((String) request.getParameter("ch1"), "");
@@ -160,17 +167,25 @@ public class NetController {
 
 		return "list";
 	}
-	
+
 	@RequestMapping(value = "/updateRecommend", method = RequestMethod.GET)
-	public String updateRecommend(NetVo vo) {
+	public String updateRecommend(NetVo vo, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+			return "redirect:/login";
+		}
 		netService.updateRecommend(vo);
-		return "redirect:/";
+		return "redirect:/list";
 	}
 	
 	@RequestMapping("/net_formOK.do")
 	public String net_formOK(HttpServletRequest request, NetVo vo) throws Exception {
-//		String path = request.getSession().getServletContext().getRealPath("/net/files/");
-//		System.out.println("경로확인 : " + path);
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+			return "redirect:/login";
+		}
 
 		MultipartFile imgFile = vo.getImgFile();
 		String extension = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf("."), imgFile.getOriginalFilename().length());
@@ -197,7 +212,6 @@ public class NetController {
 
 	@GetMapping("/imageDownload")
 	public void imageDownload(HttpServletResponse response, @RequestParam("fileName") String fileName) throws IOException {
-
 		String path = fileService.getUploadDirPath() + File.separator + fileName;
 
 		byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
@@ -212,13 +226,24 @@ public class NetController {
 	}
 	
 	@RequestMapping(value = "/deleteNet")
-	public String deleteNet(NetVo vo) {
+	public String deleteNet(HttpServletRequest request, NetVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
 		netService.deleteNet(vo);
 		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/reply", method = RequestMethod.GET)
-	public String reply(Model model, NetVo vo) {
+	public String reply(HttpServletRequest request, Model model, NetVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
+		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("b", netService.selectNet(vo));
 		model.addAttribute("r", netService.selectReplyList(vo));
 		
@@ -226,7 +251,12 @@ public class NetController {
 	}
 	
 	@RequestMapping(value = "/insertReply")
-	public String insertReply(Model model, ReplyVo vo) {
+	public String insertReply(HttpServletRequest request, Model model, ReplyVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
 		netService.insertReply(vo);
 		return "redirect:/reply?id=" + vo.getBoardId();
 	}

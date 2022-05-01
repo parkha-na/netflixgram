@@ -55,7 +55,7 @@
                 <div align="right">
                     <a href="deleteNet?id=${net.id}">x</a>
                 </div>
-                <p>${m.contents}</p>
+                <p>${net.contents}</p>
                 <p class="post-meta">
                     Posted by <a href="#!">${net.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${net.uploaddate}"/>
                 </p>

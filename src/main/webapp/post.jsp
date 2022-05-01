@@ -57,10 +57,7 @@
                         <p>포스트 작성</p>
                         <div class="my-5">
                             <form id="contactForm" action="${path}/net_formOK.do" method="post" enctype="multipart/form-data">
-                                <div class="form-floating">
-                                    <input class="form-control" id="nickname" name="nickname" type="text" placeholder="이름을 입력해 주세요" data-sb-validations="required" />
-                                    <label for="nickname">이름</label>
-                                </div>
+                                <input type="hidden" name="nickname" value="${loginUser.name}" />
                                 <div class="form-floating">
                                     <textarea class="form-control" id="contents" name="contents" placeholder="내용을 입력해 주세요" style="height: 12rem" data-sb-validations="required"></textarea>
                                     <label for="contents">내용</label>
