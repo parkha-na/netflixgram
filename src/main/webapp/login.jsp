@@ -85,7 +85,6 @@
 <%--      <a href="javascript:void(0)" onclick="naverLogout(); return false;">--%>
 <%--          <span id="naver">네이버 로그아웃</span>--%>
 <%--      </a>--%>
-      
      </div>
 </div>
 <%--<!-- 네이버 스크립트 -->--%>

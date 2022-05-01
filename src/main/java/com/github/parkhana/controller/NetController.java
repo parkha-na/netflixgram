@@ -10,6 +10,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.github.parkhana.service.FileService;
 import com.github.parkhana.service.UserService;
@@ -53,7 +54,13 @@ public class NetController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Locale locale) {
+	public String login(Locale locale, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser != null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+			return "redirect:/list";
+		}
+
 		return "login";
 	}
 
@@ -97,21 +104,26 @@ public class NetController {
 		user.setSns_type("naver");
 
 		boolean checkUser = userService.checkUser(checkUserParams);
-		if (checkUser) {
-			// TODO 기존 회원이면 세션만 생성
-		} else {
-			// TODO 처음 오는 사람이면 유저 데이터 INSERT + 세션 생성
+		if (!checkUser) { /* 처음 로그인이면 회원정보 저장하기 */
 			int status = userService.insertUser(user);
 			if (status == 1) {
 				System.out.println("회원 정보 입력을 완료했습니다.");
 			}
 		}
+		HttpSession session = request.getSession();         // 세션이 있으면 있는 세션 반환, 없으면 신규 세션을 생성하여 반환
+		session.setAttribute("loginUser", user);   	// 세션에 로그인 회원 정보 보관
 
 		return "redirect:/list";
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Locale locale, Model model, HttpServletRequest request, NetVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+			return "redirect:/login";
+		}
+
 		String page = StringUtils.defaultIfBlank((String) request.getParameter("page"), "1");
 		String ch1 = StringUtils.defaultIfBlank((String) request.getParameter("ch1"), "");
 		String ch2 = StringUtils.defaultIfBlank((String) request.getParameter("ch2"), "");
