@@ -65,15 +65,15 @@
 <div class="wrapper">
 	<div class="item">
 		<p>NETFLIXGRAM</p>
-		<div class="g-signin2" data-onsuccess="onSignIn"></div><br>
+		<div align="center" class="g-signin2" data-onsuccess="onSignIn"></div><br>
 		<a href="#" onclick="signOut()" id="googlesignout">Sign out</a><br>
       <!-- 아래와같이 아이디를 꼭 써준다. -->
       <a id="naverIdLogin_loginButton" href="javascript:void(0)">
-          <span id="naver">네이버 로그인</span>
+          <img src="assets/btnG_축약형.png" width=120 height=40>
       </a>
       <br>
       <a href="javascript:void(0)" onclick="naverLogout(); return false;">
-          <span id="naver">네이버 로그아웃</span>
+          <img src="assets/btnG_로그아웃.png" width=120 height=40>
       </a>
       
      </div>
