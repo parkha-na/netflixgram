@@ -7,11 +7,6 @@ app:
     hana: C:/Users/white/Documents/workspace-spring-tool-suite-4-4.14.0.RELEASE/netflixgram/src/main/webapp/net/files
     server: /home/jhjeon/netflixgram/files
 
-#servlet:
-#  multipart:
-#    location: /Users/freshbread/Library/Mobile Documents/com~apple~CloudDocs/Projects/github/parkha-na/netflixgram/upload
-#    maxFileSize: 200MB
-#    maxRequestSize: 100MB
 spring:
   application:
     name: netflixgram
@@ -42,17 +37,5 @@ logging:
       chndol:
         study:
           mybatissample:
-            mapper: DEBUG
-spring:
-  security:
-      oauth2:
-        client:
-          registration:
-            google:
-              client-id: 876712575275-dhfn70sci1qj97a4assntjc3c6e2g7fn.apps.googleusercontent.com
-              client-secret: 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
-              redirectUri: "http://localhost:8081/login/oauth2/code/google"
-              scope:
-                - profile
-                - email
+            mapper: INFO
           

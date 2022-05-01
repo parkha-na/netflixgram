@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="google-signin-client_id" content="876712575275-dhfn70sci1qj97a4assntjc3c6e2g7fn.apps.googleusercontent.com">
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<%--<meta name="google-signin-client_id" content="876712575275-dhfn70sci1qj97a4assntjc3c6e2g7fn.apps.googleusercontent.com">--%>
+<%--<script src="https://apis.google.com/js/platform.js" async defer></script>--%>
 <title>Netflixgram</title>
 <style type="text/css">
 	body{
@@ -94,20 +94,20 @@
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
 
-function signOut() {
-	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.signOut().then(function () {
-		console.log('User signed out.');
-	});
-	auth2.disconnect();
-}
-
-$(document).ready(function(){
-    $('.btn_social').click(function () {
-        const socialType = $(this).data('social');
-        location.href = '/oauth2/authorization/' + socialType;
-    });
-});
+// function signOut() {
+// 	var auth2 = gapi.auth2.getAuthInstance();
+// 	auth2.signOut().then(function () {
+// 		console.log('User signed out.');
+// 	});
+// 	auth2.disconnect();
+// }
+//
+// $(document).ready(function(){
+//     $('.btn_social').click(function () {
+//         const socialType = $(this).data('social');
+//         location.href = '/oauth2/authorization/' + socialType;
+//     });
+// });
 </script>
 
 </body>

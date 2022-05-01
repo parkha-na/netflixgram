@@ -314,9 +314,4 @@ public class NetController {
 
 		return "redirect:/login";
 	}
-	
-	@RequestMapping("/loginSuccess")
-	public String loginComplete() {
-		return "redirect:/list";
-	}
 }
