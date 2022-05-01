@@ -34,5 +34,3 @@ hs_err_pid*
 *.iml
 .settings
 .springBeans
-
-/upload

@@ -64,7 +64,6 @@
 </style>
 </head>
 <body>
-${clientId}
 <%
     String clientId = (String) request.getAttribute("clientId");
     String redirectURI = (String) request.getAttribute("redirectURI");
@@ -80,10 +79,13 @@ ${clientId}
 <div class="wrapper">
 	<div class="item">
 		<p>NETFLIXGRAM</p>
-		<a href="javascript:;" class="btn_social" data-social="google">
-			<img src="assets/google.png"/>
+<%--		<a href="javascript:;" class="btn_social" data-social="google">--%>
+<%--			<img src="assets/google.png"/>--%>
+<%--		</a><br/>--%>
+<%--		<a href="#" onclick="signOut()" id="googlesignout">Sign out</a><br>--%>
+        <a href="javascript:;" class="btn_social" data-social="google">--%>
+            <img src="assets/google.png"/>
 		</a><br/>
-		<a href="#" onclick="signOut()" id="googlesignout">Sign out</a><br>
 	    <a href="<%=loginApiUrl%>">
 	        <img src="assets/btnG_축약형.png" width="120" height="40">
 	    </a>
@@ -99,12 +101,13 @@ function signOut() {
 	});
 	auth2.disconnect();
 }
-	$(document).ready(function(){
-		$('.btn_social').click(function () {
-			const socialType = $(this).data('social');
-			location.href = '/oauth2/authorization/' + socialType;
-		});
-	});
+
+$(document).ready(function(){
+    $('.btn_social').click(function () {
+        const socialType = $(this).data('social');
+        location.href = '/oauth2/authorization/' + socialType;
+    });
+});
 </script>
 
 </body>
