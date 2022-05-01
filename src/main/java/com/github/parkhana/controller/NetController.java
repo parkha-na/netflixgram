@@ -1,35 +1,41 @@
 package com.github.parkhana.controller;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.github.parkhana.service.FileService;
-import com.github.parkhana.service.UserService;
-import com.github.parkhana.vo.ReplyVo;
-import com.github.parkhana.vo.Users;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.parkhana.service.FileService;
 import com.github.parkhana.service.NetService;
+import com.github.parkhana.service.UserService;
 import com.github.parkhana.vo.NetVo;
+import com.github.parkhana.vo.ReplyVo;
+import com.github.parkhana.vo.Users;
 
 @Controller
 public class NetController {
@@ -212,6 +218,7 @@ public class NetController {
 		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
 			return "redirect:/login";
 		}
+		netService.deleteReply(vo);
 		netService.deleteNet(vo);
 		return "redirect:/";
 	}
@@ -306,5 +313,10 @@ public class NetController {
 		}
 
 		return "redirect:/login";
+	}
+	
+	@RequestMapping("/loginSuccess")
+	public String loginComplete() {
+		return "redirect:/list";
 	}
 }
