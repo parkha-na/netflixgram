@@ -1,18 +1,25 @@
 package com.github.parkhana.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.github.parkhana.service.FileService;
+import com.github.parkhana.service.UserService;
 import com.github.parkhana.vo.ReplyVo;
+import com.github.parkhana.vo.Users;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +43,94 @@ public class NetController {
 	private NetService netService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private FileService fileService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Locale locale, Model model, NetVo vo) {
-
 		return "redirect:/login";
 	}
 
-	@RequestMapping(value = "/naverLogin", method = RequestMethod.GET)
-	public String naverLogin(Locale locale, Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Locale locale, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser != null) {	/* 세션에 회원 데이터가 있으면 리스트 페이지로 이동 */
+			return "redirect:/list";
+		}
+
+		return "login";
+	}
+
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	public String post(Locale locale, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
+		model.addAttribute("loginUser", loginUser);
+		return "post";
+	}
+
+	@RequestMapping(value = "/callback", method = RequestMethod.GET)
+	public String callback(Locale locale, Model model, HttpServletRequest request) {
+		String code = request.getParameter("code");
+		String state = request.getParameter("state");
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", code);
+		params.put("state", state);
+		JSONObject tokenObject = userService.getNaverToken(params);
+		Map<String, Object> tokenMap = new HashMap<>();
+		for (Object keyObj : tokenObject.keySet()) {
+			String key = (String) keyObj;
+			tokenMap.put(key, tokenObject.get(key));
+		}
+
+		JSONObject userInfoObject = userService.getNaverUserProfile(tokenMap);
+		Map<String, Object> userInfoMap = new HashMap<>();
+		for (Object keyObj : userInfoObject.keySet()) {
+			String key = (String) keyObj;
+			Object value = userInfoObject.get(key);
+			userInfoMap.put(key, userInfoObject.get(key));
+		}
+
+		JSONObject response = (JSONObject) userInfoMap.get("response");
+		Map<String, Object> checkUserParams = new HashMap<>();
+		Users user = new Users();
+		for (Object keyObj : response.keySet()) {
+			String key = (String) keyObj;
+			Object value = response.get(key);
+			checkUserParams.put(key, value);
+			user.put(key, value);
+		}
+		checkUserParams.put("sns_type", "naver");
+		user.setSns_type("naver");
+
+		boolean checkUser = userService.checkUser(checkUserParams);
+		if (!checkUser) { /* 처음 로그인이면 회원정보 저장하기 */
+			int status = userService.insertUser(user);
+			if (status == 1) {
+				System.out.println("회원 정보 입력을 완료했습니다.");
+			}
+		}
+		HttpSession session = request.getSession();         // 세션이 있으면 있는 세션 반환, 없으면 신규 세션을 생성하여 반환
+		session.setAttribute("loginUser", user);   	// 세션에 로그인 회원 정보 보관
 
 		return "redirect:/list";
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Locale locale, Model model, HttpServletRequest request, NetVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
+		model.addAttribute("loginUser", loginUser);
+
 		String page = StringUtils.defaultIfBlank((String) request.getParameter("page"), "1");
 		String ch1 = StringUtils.defaultIfBlank((String) request.getParameter("ch1"), "");
 		String ch2 = StringUtils.defaultIfBlank((String) request.getParameter("ch2"), "");
@@ -88,27 +167,25 @@ public class NetController {
 
 		return "list";
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Locale locale) {
-		return "login";
-	}
 
-	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	public String post(Locale locale, Model model) {
-		return "post";
-	}
-	
 	@RequestMapping(value = "/updateRecommend", method = RequestMethod.GET)
-	public String updateRecommend(NetVo vo) {
+	public String updateRecommend(NetVo vo, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+			return "redirect:/login";
+		}
 		netService.updateRecommend(vo);
-		return "redirect:/";
+		return "redirect:/list";
 	}
 	
 	@RequestMapping("/net_formOK.do")
 	public String net_formOK(HttpServletRequest request, NetVo vo) throws Exception {
-//		String path = request.getSession().getServletContext().getRealPath("/net/files/");
-//		System.out.println("경로확인 : " + path);
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+			return "redirect:/login";
+		}
 
 		MultipartFile imgFile = vo.getImgFile();
 		String extension = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf("."), imgFile.getOriginalFilename().length());
@@ -135,7 +212,6 @@ public class NetController {
 
 	@GetMapping("/imageDownload")
 	public void imageDownload(HttpServletResponse response, @RequestParam("fileName") String fileName) throws IOException {
-
 		String path = fileService.getUploadDirPath() + File.separator + fileName;
 
 		byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
@@ -150,13 +226,24 @@ public class NetController {
 	}
 	
 	@RequestMapping(value = "/deleteNet")
-	public String deleteNet(NetVo vo) {
+	public String deleteNet(HttpServletRequest request, NetVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
 		netService.deleteNet(vo);
 		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/reply", method = RequestMethod.GET)
-	public String reply(Model model, NetVo vo) {
+	public String reply(HttpServletRequest request, Model model, NetVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
+		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("b", netService.selectNet(vo));
 		model.addAttribute("r", netService.selectReplyList(vo));
 		
@@ -164,7 +251,12 @@ public class NetController {
 	}
 	
 	@RequestMapping(value = "/insertReply")
-	public String insertReply(Model model, ReplyVo vo) {
+	public String insertReply(HttpServletRequest request, Model model, ReplyVo vo) {
+		HttpSession session = request.getSession(false);
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
 		netService.insertReply(vo);
 		return "redirect:/reply?id=" + vo.getBoardId();
 	}

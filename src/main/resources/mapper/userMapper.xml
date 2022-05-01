@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.parkhana.dao.UserDao">
+
+    <insert id="insertUser" parameterType="com.github.parkhana.vo.Users">
+        insert into users (name, nickname, sns_id, sns_type, birthday, profile_image, gender, birthyear, mobile, mobile_e164, create_date)
+        values (
+            #{name},
+            #{nickname},
+            #{name},
+            #{sns_type},
+            #{birthday},
+            #{profile_image},
+            #{gender},
+            #{birthyear},
+            #{mobile},
+            #{mobile_e164},
+            now()
+        )
+    </insert>
+
+    <select id="selectUserOne" parameterType="HashMap" resultType="com.github.parkhana.vo.Users">
+        select
+            id,
+            name,
+            nickname,
+            sns_id,
+            sns_type,
+            birthday,
+            profile_image,
+            gender,
+            birthyear,
+            mobile,
+            mobile_e164,
+            create_date
+          from users
+         where 1=1
+           and sns_type = #{sns_type}
+           and sns_id = #{sns_id}
+    </select>
+
+</mapper>

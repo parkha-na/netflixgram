@@ -26,7 +26,7 @@
 	<tr>
 		<td>
 			<input type="hidden" name="boardId" value="${b.id}">
-			<input type="text" name="replynickname" size="5">
+			<input type="hidden" name="replynickname" value="${loginUser.name}" />
 			<input type="text" name="replycontents">
 			<input type="submit" value="댓글달기">
 		</td>

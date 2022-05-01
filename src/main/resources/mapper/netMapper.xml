@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.parkhana.dao.NetDao">
 	<resultMap type="com.github.parkhana.vo.NetVo" id="netResultMap">
-	  	<id property ="replynumber"  column="replynumber"  />
+	  	<id property = "replynumber"  column="replynumber"  />
 	  	<!-- property 값은 Vo 의 필드명 , column의 값은 SQL 구문의 칼럼명 -->
 	    <result property ="replyCnt"  column="replyCnt" />
 	</resultMap>
