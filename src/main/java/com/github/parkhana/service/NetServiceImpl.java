@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.parkhana.vo.ReplyVo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.github.parkhana.dao.NetDao;
 import com.github.parkhana.vo.NetVo;
 
 @Service
 public class NetServiceImpl implements NetService {
+
+	@Value("${app.upload.dir}")
+	private String uploadDirTarget;
 
 	private final NetDao dao;
 
@@ -55,5 +59,10 @@ public class NetServiceImpl implements NetService {
 	@Override
 	public int insertReply(ReplyVo vo) {
 		return dao.insertReply(vo);
+	}
+
+	@Override
+	public String getServerLocation() {
+		return uploadDirTarget;
 	}
 }

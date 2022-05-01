@@ -22,9 +22,11 @@ public class FileService {
     @Value("${app.upload.hana:${user.home}}")
     private String uploadDirHana;
 
+    @Value("${app.upload.server:${user.home}}")
+    private String uploadDirServer;
+
     @Value("${app.upload.dir}")
     private String uploadDirTarget;
-
 
     public void fileUpload(MultipartFile multipartFile, String newFileName) {
 
@@ -48,6 +50,8 @@ public class FileService {
         String uploadDir = "";
         if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(uploadDirTarget, "jhjeon")) {
             uploadDir = uploadDirJhjeon;
+        } else if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(uploadDirTarget, "server")) {
+            uploadDir = uploadDirServer;
         } else {
             uploadDir = uploadDirHana;
         }

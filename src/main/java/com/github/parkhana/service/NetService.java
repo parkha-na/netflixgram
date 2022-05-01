@@ -23,4 +23,6 @@ public interface NetService {
 	NetVo selectNet(NetVo vo);
 
 	int insertReply(ReplyVo vo);
+
+	String getServerLocation();
 }

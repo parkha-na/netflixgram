@@ -63,9 +63,11 @@
 </style>
 </head>
 <body>
+${clientId}
 <%
-    String clientId = "MCfxN6QafHKnz4o_H26m";   /* 애플리케이션 클라이언트 아이디값 */
-    String redirectURI = URLEncoder.encode("http://localhost:8081/callback", "UTF-8");
+    String clientId = (String) request.getAttribute("clientId");
+    String redirectURI = (String) request.getAttribute("redirectURI");
+    redirectURI = URLEncoder.encode(redirectURI, "UTF-8");
     SecureRandom random = new SecureRandom();
     String state = new BigInteger(130, random).toString();
     String loginApiUrl = "https://nid.naver.com/oauth2.0/authorize?response_type=code";

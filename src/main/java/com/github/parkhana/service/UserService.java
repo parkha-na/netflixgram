@@ -2,10 +2,12 @@ package com.github.parkhana.service;
 
 import com.github.parkhana.dao.UserDao;
 import com.github.parkhana.vo.Users;
+import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -21,8 +23,13 @@ public class UserService {
 
     private static String NAVER_TOKEN_API_URL = "https://nid.naver.com/oauth2.0/token";
     private static String NAVER_ME_API_URL = "https://openapi.naver.com/v1/nid/me";
-    private static String CLIENT_ID = "MCfxN6QafHKnz4o_H26m";   /* 애플리케이션 클라이언트 아이디값 */
-    private static String CLIENT_SECRET = "frg2VF_47B";         /* 애플리케이션 클라이언트 시크릿값 */
+    private static String CLIENT_ID = "MCfxN6QafHKnz4o_H26m";   /* 애플리케이션 클라이언트 아이디값 (개발) */
+    private static String CLIENT_SECRET = "frg2VF_47B";         /* 애플리케이션 클라이언트 시크릿값 (개발) */
+    private static String DEV_CLIENT_ID = "TAMKGPSU19GpuoJbmZHE";   /* 애플리케이션 클라이언트 아이디값 */
+    private static String DEV_CLIENT_SECRET = "_6HhQo8ktS";         /* 애플리케이션 클라이언트 시크릿값 */
+
+    @Value("${app.upload.dir}")
+    private String serverLocation;
 
     @Autowired
     private UserDao userDao;
@@ -48,14 +55,23 @@ public class UserService {
         JSONParser jsonParser = new JSONParser();
         JSONObject tokenJSONObject = null;
         try {
-            redirectURI = URLEncoder.encode("http://localhost:8081/callback", "UTF-8");
+            redirectURI = URLEncoder.encode("/callback", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         String tokenApiURL = NAVER_TOKEN_API_URL;
+        String clientId = "";
+        String clientSecrect = "";
+        if (StringUtils.equalsIgnoreCase(serverLocation, "server")) {
+            clientId = CLIENT_ID;
+            clientSecrect = CLIENT_SECRET;
+        } else {
+            clientId = DEV_CLIENT_ID;
+            clientSecrect = DEV_CLIENT_SECRET;
+        }
         tokenApiURL += "?grant_type=authorization_code";
-        tokenApiURL += "&client_id=" + CLIENT_ID;
-        tokenApiURL += "&client_secret=" + CLIENT_SECRET;
+        tokenApiURL += "&client_id=" + clientId;
+        tokenApiURL += "&client_secret=" + clientSecrect;
         tokenApiURL += "&redirect_uri=" + redirectURI;
         tokenApiURL += "&code=" + code;
         tokenApiURL += "&state=" + state;
