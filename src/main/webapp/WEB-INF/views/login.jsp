@@ -83,7 +83,7 @@
 <%--			<img src="assets/google.png"/>--%>
 <%--		</a><br/>--%>
 <%--		<a href="#" onclick="signOut()" id="googlesignout">Sign out</a><br>--%>
-        <a href="javascript:;" class="btn_social" data-social="google">--%>
+        <a href="<%=loginApiUrl%>">
             <img src="assets/google.png"/>
 		</a><br/>
 	    <a href="<%=loginApiUrl%>">
