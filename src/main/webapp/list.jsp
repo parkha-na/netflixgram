@@ -37,7 +37,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/post">글 작성하기</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/logout">로그아웃</a></li>
+                <li class="nav-item"><a href="/logout"><img src="assets/btnG_로그아웃.png" width="120" height="40"></a></li>
             </ul>
         </div>
     </div>
