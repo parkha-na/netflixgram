@@ -47,21 +47,22 @@
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="col-md-12 col-lg-8 col-xl-7">
             <c:forEach var="net" items="${li}">
-            <!-- Post preview-->
-            <div class="post-preview">
-                <p><img src="/imageDownload?fileName=${net.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></p>
-                <div align="right">
-                    <a href="deleteNet?id=${net.id}">x</a>
+            <div class="row">
+                <div class="col-md-6" style="float: left;">
+                    <img src="/imageDownload?fileName=${net.img}" style="max-width: 300px;" onerror="this.src='assets/noimage.svg'" />
                 </div>
-                <p>${net.contents}</p>
-                <p class="post-meta">
-                    Posted by <a href="#!">${net.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${net.uploaddate}"/>
-                </p>
-                <p><a href="/updateRecommend?id=${net.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${net.recommend}</p>
-                <a href="/reply?id=${net.id}">댓글 ${net.replyCnt}개 모두 보기</a>
-                <!-- Divider-->
+                <div class="col-md-6" style="float: right;">
+                    <a href="deleteNet?id=${net.id}">x</a>
+                    <p>${net.contents}</p>
+                    <p class="post-meta">
+                        Posted by <a href="#!">${net.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${net.uploaddate}"/>
+                    </p>
+                    <p><a href="/updateRecommend?id=${net.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${net.recommend}</p>
+                    <a href="/reply?id=${net.id}">댓글 ${net.replyCnt}개 모두 보기</a>
+                    <!-- Divider-->
+                </div>
                 <hr class="my-4" />
             </div>
             </c:forEach>
