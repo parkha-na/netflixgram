@@ -79,7 +79,9 @@
 	</select>
 	
 	<delete id="deleteReply" parameterType="com.github.parkhana.vo.NetVo">
-		DELETE FROM reply_board WHERE boardId = #{id};
+		DELETE FROM reply_board
+	     WHERE 1=1
+	       AND boardId = #{id};
 	</delete>
 
 	<select id="selectNet" parameterType="com.github.parkhana.vo.NetVo" resultType="com.github.parkhana.vo.NetVo">
