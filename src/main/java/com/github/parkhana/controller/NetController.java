@@ -314,4 +314,9 @@ public class NetController {
 
 		return "redirect:/login";
 	}
+	@RequestMapping(value = "/deleteReply")
+	public String deleteReply(HttpServletRequest request, NetVo vo) {
+		netService.deleteReply(vo);
+		return "redirect:/reply";
+	}
 }
