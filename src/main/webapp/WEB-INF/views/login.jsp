@@ -83,9 +83,7 @@
 <%--			<img src="assets/google.png"/>--%>
 <%--		</a><br/>--%>
 <%--		<a href="#" onclick="signOut()" id="googlesignout">Sign out</a><br>--%>
-        <a href="<%=loginApiUrl%>">
-            <img src="assets/google.png"/>
-		</a><br/>
+        
 	    <a href="<%=loginApiUrl%>">
 	        <img src="assets/btnG_축약형.png" width="120" height="40">
 	    </a>

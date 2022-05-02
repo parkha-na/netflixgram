@@ -15,7 +15,7 @@ a:link {
 }
 
 i a:visited {
-  color: black;
+  color: #ff0000;
   background-color: transparent;
   text-decoration: none;
 }

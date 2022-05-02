@@ -209,7 +209,7 @@ public class NetController {
 	}
 	
 	@RequestMapping(value = "/deleteNet")
-	public String deleteNet(HttpServletRequest request, NetVo vo) {
+	public String deleteNet(HttpServletRequest request, NetVo netvo, ReplyVo replyvo) {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
 			return "redirect:/login";
@@ -218,8 +218,15 @@ public class NetController {
 		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
 			return "redirect:/login";
 		}
-		netService.deleteReply(vo);
-		netService.deleteNet(vo);
+		NetVo k = netService.selectNet(netvo);
+		String delFile = k.getImg();
+		String path = request.getSession().getServletContext().getRealPath("/net/files/");
+		String del = path + delFile;
+		File f = new File(del);
+		f.delete(); // 파일 삭제
+
+		netService.deleteReply(replyvo);
+		netService.deleteNet(netvo);
 		return "redirect:/";
 	}
 	
