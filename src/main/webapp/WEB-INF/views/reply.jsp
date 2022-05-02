@@ -37,7 +37,7 @@ a:active {
 <div align="center">
 <form action="/insertReply" method="post">
 <table>
-	<tr><td colspan=2 align="right"><a href="/list">x</a></td></tr>
+	<tr><td colspan=2 align="right"><a href="/list">[목록으로 이동]</a></td></tr>
 	<tr>
 		<td rowspan=4><img src="/imageDownload?fileName=${b.img}" style="max-width: 400px;" onerror="this.src='assets/noimage.svg'" /></td>
 		<td>${b.nickname} ${b.contents}</td>
@@ -47,12 +47,12 @@ a:active {
 		<td>${re.replynickname} ${re.replycontents} <c:if test="${not empty re.replycontents and loginUser.nickname eq re.replynickname}"><a href="/deleteReply?replynumber=${re.replynumber}">x</a></c:if> <c:if test="${empty re.replycontents or loginUser.nickname ne re.replynickname}"></c:if></td>
 	</tr>
 	</c:forEach>
-	<tr>
-		<td><a href="/updateRecommend?id=${b.id}">♥</a> ${b.recommend}</td>
-	</tr>
+<%--	<tr>--%>
+<%--		<td><a href="/updateRecommend?id=${b.id}">♥</a> ${b.recommend}</td>--%>
+<%--	</tr>--%>
 	<tr>
 		<td>
-			<input type="hidden" name="boardId" value="${b.id}">
+			<input type="hidden" name="board_id" value="${b.id}">
 			<input type="hidden" name="replynickname" value="${loginUser.nickname}" />
 			<input type="text" name="replycontents">
 			<input type="submit" value="댓글달기">

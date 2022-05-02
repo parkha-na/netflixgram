@@ -9,36 +9,25 @@ import lombok.Data;
 
 @Data
 public class Users {
-	private int id;
-	
+
+	private String id;
     private String name;
-
     private String email;
-
     private String nickname;
-
     private String sns_id;
-
     private String sns_type;
-
     private String birthday;
-
     private String profile_image;
-
     private String gender;
-
     private String birthyear;
-	
     private String mobile;
-
     private String mobile_e164;
-
     private Date create_date;
 
     public void put(String key, Object value) {
-//        if (StringUtils.equalsIgnoreCase(key, "id")) {
-//            setId((int) value);
-//        }
+        if (StringUtils.equalsIgnoreCase(key, "id")) {
+            setId((String) value);
+        }
         if (StringUtils.equalsIgnoreCase(key, "name")) {
             setName((String) value);
         }

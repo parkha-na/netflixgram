@@ -8,21 +8,35 @@
 	</resultMap>
 
 	<insert id="insertNet" parameterType="com.github.parkhana.vo.NetVo">
-		insert into board (contents, nickname, uploaddate, img)
-		values(#{contents}, #{nickname}, now(), #{img})
+		insert into board (contents, nickname, img, user_id, createdate, uploaddate)
+		values(#{contents}, #{nickname}, #{user_id}, #{img}, now(), now())
 	</insert>
 
-	<delete id="deleteNet" parameterType="com.github.parkhana.vo.NetVo">
-		delete from board where id = #{id}
-	</delete>
+	<insert id="insertReply" parameterType="com.github.parkhana.vo.ReplyVo">
+		INSERT into reply_board(replynickname, replycontents, board_id)
+		VALUES(#{replynickname}, #{replycontents}, #{board_id});
+	</insert>
+
+	<insert id="insertRecommended" parameterType="HashMap">
+		INSERT into recommended(board_id, user_id, create_date)
+		VALUES (#{board_id}, #{user_id}, now());
+	</insert>
+
+	<update id="updateRecommended" parameterType="HashMap">
+		update recommended
+		   set use_yn = #{use_yn}
+		 where 1=1
+		   and board_id = #{board_id}
+		   and user_id = #{user_id}
+	</update>
 	
 	<select id="selectNetList" parameterType="HashMap" resultType="com.github.parkhana.vo.NetVo">
 		select
 			id,
 		    contents,
+			user_id,
 			nickname,
 		    uploaddate,
-		    recommend,
 		    img
 		  from board
 		  where 1=1
@@ -36,34 +50,15 @@
 		limit #{startPage}, #{endPage}
 	</select>
 
-	<select id="selectNetBoard" parameterType="HashMap" resultType="com.github.parkhana.vo.NetVo">
+	<select id="selectNet" parameterType="com.github.parkhana.vo.NetVo" resultType="com.github.parkhana.vo.NetVo">
 		select
-			b.id,
-			b.contents,
-			b.nickname,
-			b.uploaddate,
-			b.recommend,
-			b.img
-		  from board b
-		where 1=1
-		<if test="ch1 == 'nickname'">
-			and b.nickname like CONCAT('%', #{ch2}, '%')
-		</if>
-		<if test="ch1 == 'contents'">
-			and b.contents like CONCAT('%', #{ch2}, '%')
-		</if>
-		order by b.uploaddate desc
-		limit #{startPage}, #{endPage}
-	</select>
-	
-	<update id="updateRecommend" parameterType="com.github.parkhana.vo.NetVo">
-		update board set recommend = recommend + 1 where id = #{id}
-	</update>
-
-	<select id="TOTALREPLY"  resultMap="netResultMap" parameterType="com.github.parkhana.vo.NetVo">
-	   select count(replynumber) as replyCnt from reply_board
-        where 1=1
-          and boardId = #{id}
+			id,
+			contents,
+			user_id,
+			nickname,
+			uploaddate,
+			img
+		from board where id = #{id}
 	</select>
 
 	<select id="selectReplyList" parameterType="com.github.parkhana.vo.NetVo" resultType="com.github.parkhana.vo.ReplyVo">
@@ -71,33 +66,46 @@
 			replynumber,
 			replynickname,
 			replycontents,
-			boardId
-		  from reply_board
-		 where 1=1
-           and boardId = #{id}
-        order by replynumber desc
+			board_id
+		from reply_board
+		where 1=1
+		  and board_id = #{id}
+		order by replynumber desc
 	</select>
-	
-	<delete id="deleteReply" parameterType="com.github.parkhana.vo.ReplyVo">
-		DELETE FROM reply_board
-	     WHERE 1=1
-	       AND replynumber = #{replynumber};
+
+	<select id="TOTALREPLY"  resultMap="netResultMap" parameterType="com.github.parkhana.vo.NetVo">
+	   select count(replynumber) as replyCnt from reply_board
+        where 1=1
+          and board_id = #{id}
+	</select>
+
+	<select id="selectRecommended" parameterType="HashMap" resultType="com.github.parkhana.vo.RecommendedVo">
+		select id, user_id, use_yn
+		  from recommended
+	 	 where 1=1
+	 	   and board_id = #{board_id}
+		<if test="user_id != null">
+		   and user_id = #{user_id}
+		</if>
+		<if test="use_yn != null">
+			and use_yn = #{use_yn}
+		</if>
+	</select>
+
+	<delete id="deleteNet" parameterType="com.github.parkhana.vo.NetVo">
+		delete from board where id = #{id}
 	</delete>
 
-	<select id="selectNet" parameterType="com.github.parkhana.vo.NetVo" resultType="com.github.parkhana.vo.NetVo">
-		select
-		    id,
-		    contents,
-			nickname,
-		    uploaddate,
-		    recommend,
-		    img
-		  from board where id = #{id}
-	</select>
+	<delete id="deleteReply" parameterType="com.github.parkhana.vo.ReplyVo">
+		DELETE FROM reply_board
+		WHERE 1=1
+		  AND replynumber = #{replynumber};
+	</delete>
 
-	<insert id="insertReply" parameterType="com.github.parkhana.vo.ReplyVo">
-		INSERT into reply_board(replynickname, replycontents, boardId)
-		VALUES(#{replynickname}, #{replycontents}, #{boardId});
-	</insert>
+	<delete id="deleteRecommended" parameterType="HashMap">
+		DELETE FROM recommended
+		WHERE 1=1
+		  AND board_id = #{board_id};
+	</delete>
 
 </mapper>

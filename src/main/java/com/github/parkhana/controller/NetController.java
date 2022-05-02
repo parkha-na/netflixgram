@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.github.parkhana.vo.RecommendedVo;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
@@ -77,6 +78,16 @@ public class NetController {
 		return "login";
 	}
 
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();   /* 세션 날림 */
+		}
+
+		return "redirect:/login";
+	}
+
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public String post(Locale locale, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -109,8 +120,6 @@ public class NetController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ch1", ch1);
 		params.put("ch2", ch2);
-		//NetVo k = netService.TOTALREPLY(vo);
-		//model.addAttribute("K1", k.getK1());
 
 		int pageNum = Integer.parseInt(page);
 		int startPage = ((pageNum - 1) * 10);
@@ -121,6 +130,11 @@ public class NetController {
 		for (NetVo netVo : boardList) {
 			NetVo resultVo = netService.TOTALREPLY(netVo);
 			netVo.setReplyCnt(resultVo.getReplyCnt());
+			Map<String, Object> reCntParams = new HashMap<>();
+			reCntParams.put("board_id", netVo.getId());
+			reCntParams.put("use_yn", 'Y');
+			List<RecommendedVo> recommendedList = netService.selectRecommended(reCntParams);
+			netVo.setRecommend(recommendedList.size());
 		}
  		model.addAttribute("li", boardList);
 
@@ -138,20 +152,6 @@ public class NetController {
 		model.addAttribute("page", pageNum);
 
 		return "list";
-	}
-
-	@RequestMapping(value = "/updateRecommend", method = RequestMethod.GET)
-	public String updateRecommend(NetVo vo, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			return "redirect:/login";
-		}
-		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
-		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
-			return "redirect:/login";
-		}
-		netService.updateRecommend(vo);
-		return "redirect:/list";
 	}
 	
 	@RequestMapping("/net_formOK.do")
@@ -207,7 +207,7 @@ public class NetController {
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 	}
-	
+
 	@RequestMapping(value = "/deleteNet")
 	public String deleteNet(HttpServletRequest request, NetVo netvo, ReplyVo replyvo) {
 		HttpSession session = request.getSession(false);
@@ -227,6 +227,9 @@ public class NetController {
 
 		netService.deleteReply(replyvo);
 		netService.deleteNet(netvo);
+		Map<String, Object> params = new HashMap<>();
+		params.put("board_id", netvo.getId());
+		netService.deleteRecommended(params);
 		return "redirect:/";
 	}
 	
@@ -249,20 +252,6 @@ public class NetController {
 		model.addAttribute("r", netService.selectReplyList(vo));
 		
 		return "reply";
-	}
-	
-	@RequestMapping(value = "/insertReply")
-	public String insertReply(HttpServletRequest request, Model model, ReplyVo vo) {
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			return "redirect:/login";
-		}
-		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
-		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
-			return "redirect:/login";
-		}
-		netService.insertReply(vo);
-		return "redirect:/reply?id=" + vo.getBoardId();
 	}
 
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
@@ -312,15 +301,20 @@ public class NetController {
 		return "redirect:/list";
 	}
 
-	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request) {
+	@RequestMapping(value = "/insertReply")
+	public String insertReply(HttpServletRequest request, Model model, ReplyVo vo) {
 		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();   /* 세션 날림 */
+		if (session == null) {
+			return "redirect:/login";
 		}
-
-		return "redirect:/login";
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
+		netService.insertReply(vo);
+		return "redirect:/reply?id=" + vo.getBoard_id();
 	}
+
 	@RequestMapping(value = "/deleteReply")
 	public String deleteReply(HttpServletRequest request, ReplyVo vo) {
 		netService.deleteReply(vo);

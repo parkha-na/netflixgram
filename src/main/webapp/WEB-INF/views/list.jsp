@@ -57,18 +57,17 @@
                 </div>
                 <div class="col-md-6" style="float: right;">
                 	<p align="right">
-                	<c:if test="${net.nickname eq loginUser.nickname}">
+                	<c:if test="${net.user_id eq loginUser.id}">
                     	<a href="deleteNet?id=${net.id}">x</a>
-                    </c:if>
-                    <c:if test="${net.nickname ne loginUser.nickname}">
-                    	
                     </c:if>
                     </p>
                     <p>${net.contents}</p>
                     <p class="post-meta">
                         Posted by <a href="#!">${net.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${net.uploaddate}"/>
                     </p>
-                    <p><a href="/updateRecommend?id=${net.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${net.recommend}</p>
+                    <input type="hidden" name="nickname" value="${loginUser.nickname}" />
+<%--                    <p><a href="/updateRecommend?id=${net.id}"><i class="fa fa-heart" aria-hidden="true"></i></a> ${net.recommend}</p>--%>
+                    <p><a href="javascript:updateRecommended('${net.id}', '${loginUser.sns_id}');"><i class="fa fa-heart" aria-hidden="true"></i> <span id="recommend-count-${net.id}">${net.recommend}</span></a></p>
                     <a href="/reply?id=${net.id}">댓글 ${net.replyCnt}개 모두 보기</a>
                     <!-- Divider-->
                 </div>
@@ -96,5 +95,26 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
+<script src="js/query-1.8.3.min.js"></script>
+<script type="text/javascript">
+function updateRecommended(board_id, user_id) {
+
+    $.ajax({
+        url: "/board/recommended",
+        type: "GET",
+        cache: false,
+        dataType: "json",
+        data: {
+            "board_id": board_id,
+            "user_id": user_id
+        }, success: function(data){
+            console.log(data);
+            $("#recommend-count-" + board_id).text(data.recommend_count);
+        }, error: function (request, status, error){
+            console.log(error);
+        }
+    });
+}
+</script>
 </body>
 </html>

@@ -8,5 +8,6 @@ public class ReplyVo {
     private int replynumber;
     private String replynickname;
     private String replycontents;
-    private int boardId;
+    private int board_id;
+    private String user_id;
 }

@@ -3,6 +3,7 @@ package com.github.parkhana.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.github.parkhana.vo.RecommendedVo;
 import com.github.parkhana.vo.ReplyVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,19 +13,26 @@ import com.github.parkhana.vo.NetVo;
 public interface NetDao {
 	
 	int insertNet(NetVo vo);
+
+	int insertReply(ReplyVo vo);
+
+	int insertRecommended(Map<String, Object> params);
+
+	int updateRecommended(Map<String, Object> params);
 	
 	List<NetVo> selectNetList(Map<String, Object> params);
 
-	int updateRecommend(NetVo vo);
-	
-	int deleteNet(NetVo vo);
-
-	NetVo TOTALREPLY(NetVo vo);
+	NetVo selectNet(NetVo vo);
 
 	List<ReplyVo> selectReplyList(NetVo vo);
 
-	NetVo selectNet(NetVo vo);
+	NetVo TOTALREPLY(NetVo vo);
 
-	int insertReply(ReplyVo vo);
-	void deleteReply(ReplyVo vo);
+	List<RecommendedVo> selectRecommended(Map<String, Object> params);
+
+	int deleteNet(NetVo vo);
+
+	int deleteReply(ReplyVo vo);
+
+	int deleteRecommended(Map<String, Object> params);
 }

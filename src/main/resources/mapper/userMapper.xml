@@ -3,8 +3,9 @@
 <mapper namespace="com.github.parkhana.dao.UserDao">
 
     <insert id="insertUser" parameterType="com.github.parkhana.vo.Users">
-        insert into users (name, nickname, sns_id, sns_type, birthday, profile_image, gender, birthyear, mobile, mobile_e164, create_date)
+        insert into users (id, name, nickname, sns_id, sns_type, birthday, profile_image, gender, birthyear, mobile, mobile_e164, create_date)
         values (
+            #{sns_id},
             #{name},
             #{nickname},
             #{sns_id},
