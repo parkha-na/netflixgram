@@ -13,7 +13,7 @@
 <table>
 	
 	<tr>
-		<td rowspan=3><img src="/imageDownload?fileName=${b.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></td>
+		<td rowspan=4><img src="/imageDownload?fileName=${b.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></td>
 		<td>${b.nickname} ${b.contents}</td>
 	</tr>
 	<c:forEach var="re" items="${r}">
