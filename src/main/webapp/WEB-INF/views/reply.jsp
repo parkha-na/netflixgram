@@ -18,7 +18,7 @@
 	</tr>
 	<c:forEach var="re" items="${r}">
 	<tr>
-		<td>${re.replynickname} ${re.replycontents} <c:if test="${not empty re.replycontents and loginUser.nickname eq re.replynickname}"><a href="/deleteReply?id=${b.id}">x</a></c:if> <c:if test="${empty re.replycontents or loginUser.nickname ne re.replynickname}">x</c:if></td>
+		<td>${re.replynickname} ${re.replycontents} <c:if test="${not empty re.replycontents and loginUser.nickname eq re.replynickname}"><a href="/deleteReply?replynumber=${re.replynumber}">x</a></c:if> <c:if test="${empty re.replycontents or loginUser.nickname ne re.replynickname}"></c:if></td>
 	</tr>
 	</c:forEach>
 	<tr>

@@ -25,5 +25,5 @@ public interface NetService {
 	int insertReply(ReplyVo vo);
 
 	String getServerLocation();
-	void deleteReply(NetVo vo);
+	void deleteReply(ReplyVo vo);
 }

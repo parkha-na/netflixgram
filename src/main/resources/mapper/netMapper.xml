@@ -78,10 +78,10 @@
         order by replynumber desc
 	</select>
 	
-	<delete id="deleteReply" parameterType="com.github.parkhana.vo.NetVo">
+	<delete id="deleteReply" parameterType="com.github.parkhana.vo.ReplyVo">
 		DELETE FROM reply_board
 	     WHERE 1=1
-	       AND boardId = #{id};
+	       AND replynumber = #{replynumber};
 	</delete>
 
 	<select id="selectNet" parameterType="com.github.parkhana.vo.NetVo" resultType="com.github.parkhana.vo.NetVo">

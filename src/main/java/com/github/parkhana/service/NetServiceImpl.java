@@ -67,7 +67,7 @@ public class NetServiceImpl implements NetService {
 	}
 
 	@Override
-	public void deleteReply(NetVo vo) {
+	public void deleteReply(ReplyVo vo) {
 		dao.deleteReply(vo);
 	}
 }
