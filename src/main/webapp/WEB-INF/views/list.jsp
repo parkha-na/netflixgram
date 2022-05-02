@@ -55,12 +55,14 @@
                     <img src="/imageDownload?fileName=${net.img}" style="max-width: 300px;" onerror="this.src='assets/noimage.svg'" />
                 </div>
                 <div class="col-md-6" style="float: right;">
+                	<p align="right">
                 	<c:if test="${net.nickname eq loginUser.nickname}">
                     	<a href="deleteNet?id=${net.id}">x</a>
                     </c:if>
                     <c:if test="${net.nickname ne loginUser.nickname}">
                     	
                     </c:if>
+                    </p>
                     <p>${net.contents}</p>
                     <p class="post-meta">
                         Posted by <a href="#!">${net.nickname}</a> on <fmt:formatDate pattern="yyyy.MM.dd" value="${net.uploaddate}"/>

@@ -6,14 +6,40 @@
 <head>
 <meta charset="UTF-8">
 <title>리플 달기</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+a:link {
+  color: #ff0000;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+i a:visited {
+  color: black;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ff0000;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:active {
+  color: #ff0000;
+  background-color: transparent;
+  text-decoration: none;
+}
+</style>
 </head>
 <body>
 <div align="center">
 <form action="/insertReply" method="post">
 <table>
-	
+	<tr><td colspan=2 align="right"><a href="/list">x</a></td></tr>
 	<tr>
-		<td rowspan=4><img src="/imageDownload?fileName=${b.img}" style="max-width: 500px;" onerror="this.src='assets/noimage.svg'" /></td>
+		<td rowspan=4><img src="/imageDownload?fileName=${b.img}" style="max-width: 400px;" onerror="this.src='assets/noimage.svg'" /></td>
 		<td>${b.nickname} ${b.contents}</td>
 	</tr>
 	<c:forEach var="re" items="${r}">
