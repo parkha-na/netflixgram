@@ -88,20 +88,6 @@ public class NetController {
 		return "redirect:/login";
 	}
 
-	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	public String post(Locale locale, Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			return "redirect:/login";
-		}
-		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
-		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
-			return "redirect:/login";
-		}
-		model.addAttribute("loginUser", loginUser);
-		return "post";
-	}
-	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Locale locale, Model model, HttpServletRequest request, NetVo vo) {
 		HttpSession session = request.getSession(false);
@@ -136,7 +122,7 @@ public class NetController {
 			List<RecommendedVo> recommendedList = netService.selectRecommended(reCntParams);
 			netVo.setRecommend(recommendedList.size());
 		}
- 		model.addAttribute("li", boardList);
+		model.addAttribute("li", boardList);
 
 		boolean isNextPage = true;
 		int nextPageNum = pageNum + 1;
@@ -153,9 +139,34 @@ public class NetController {
 
 		return "list";
 	}
+
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	public String post(Locale locale, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return "redirect:/login";
+		}
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 로그인 페이지로 이동 */
+			return "redirect:/login";
+		}
+		model.addAttribute("loginUser", loginUser);
+
+		// id 파라마터를 받을 경우 페이지 수정을 진행한다.
+		String idStr = StringUtils.defaultIfBlank((String) request.getParameter("id"), "");
+		if (StringUtils.isNotBlank(idStr)) {
+			NetVo params = new NetVo();
+			int id = Integer.parseInt(idStr);
+			params.setId(id);
+			NetVo netVo = netService.selectNet(params);
+			model.addAttribute("netVo", netVo);
+		}
+
+		return "post";
+	}
 	
-	@RequestMapping("/net_formOK.do")
-	public String net_formOK(HttpServletRequest request, NetVo vo) throws Exception {
+	@RequestMapping("/post/write")
+	public String postWrite(HttpServletRequest request, NetVo vo) throws Exception {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
 			return "redirect:/login";
@@ -164,6 +175,12 @@ public class NetController {
 		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
 			return "redirect:/login";
 		}
+
+		long time = System.currentTimeMillis();
+		SimpleDateFormat dayTime = new SimpleDateFormat("HHmmss");
+		String timeStr = dayTime.format(time);
+		Date now = new Date();
+		vo.setUploaddate(now);
 
 		MultipartFile imgFile = vo.getImgFile();
 		if (imgFile != null) {
@@ -176,14 +193,50 @@ public class NetController {
 				vo.setImg(newFileName);
 			}
 		}
-		
+
+		int status = netService.insertNet(vo);
+		if (status == 1) {
+			logger.debug("데이터 정상 입력");
+		} else {
+			logger.error("데이터 입력 오류");
+		}
+
+		return "redirect:/";
+	}
+
+	@RequestMapping("/post/update")
+	public String postUpdate(HttpServletRequest request, NetVo vo) throws Exception {
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return "redirect:/login";
+		}
+		Users loginUser = (Users) session.getAttribute("loginUser");	/* 세션에 저장된 회원 조회 */
+		if (loginUser == null) {	/* 세션에 회원 데이터가 없으면 홈으로 이동 */
+			return "redirect:/login";
+		}
+
+		int status = 0;netService.updateNetWithImg(vo);
 		long time = System.currentTimeMillis();
 		SimpleDateFormat dayTime = new SimpleDateFormat("HHmmss");
 		String timeStr = dayTime.format(time);
 		Date now = new Date();
 		vo.setUploaddate(now);
 
-		int status = netService.insertNet(vo);
+		MultipartFile imgFile = vo.getImgFile();
+		if (imgFile != null) {
+			String originalFilaName = imgFile.getOriginalFilename();
+			if (originalFilaName.length() > 0) {
+				String extension = originalFilaName.substring(imgFile.getOriginalFilename().lastIndexOf("."), originalFilaName.length());
+				UUID uuid = UUID.randomUUID();
+				String newFileName = uuid.toString() + extension;
+				fileService.fileUpload(imgFile, newFileName);
+				vo.setImg(newFileName);
+			}
+			status = netService.updateNetWithImg(vo);
+		} else {
+			status = netService.updateNet(vo);
+		}
+
 		if (status == 1) {
 			logger.debug("데이터 정상 입력");
 		} else {

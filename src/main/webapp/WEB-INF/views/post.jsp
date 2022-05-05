@@ -56,7 +56,30 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <p>포스트 작성</p>
                         <div class="my-5">
-                            <form id="contactForm" action="${path}/net_formOK.do" method="post" enctype="multipart/form-data">
+                            <c:choose>
+                                <c:when test="${netVo ne null}">
+                            <form id="contactForm" action="${path}/post/update" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="user_id" value="${loginUser.id}" />
+                                <input type="hidden" name="nickname" value="${loginUser.nickname}" />
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="contents" name="contents" placeholder="내용을 입력해 주세요" style="height: 12rem" data-sb-validations="required">${netVo.contents}</textarea>
+                                    <label for="contents">내용</label>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="imgFile" aria-describedby="inputGroupFileAddon01">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                </div>
+                                <!-- Submit Button-->
+                                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">수정</button>
+                            </form>
+                                </c:when>
+                                <c:otherwise>
+                            <form id="contactForm" action="${path}/post/write" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="user_id" value="${loginUser.id}" />
                                 <input type="hidden" name="nickname" value="${loginUser.nickname}" />
                                 <div class="form-floating">
@@ -76,6 +99,8 @@
                                 <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">작성</button>
                                 <button class="btn btn-primary text-uppercase" id="resetButton" type="reset">다시 작성</button>
                             </form>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
