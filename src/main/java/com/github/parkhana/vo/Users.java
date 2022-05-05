@@ -2,10 +2,7 @@ package com.github.parkhana.vo;
 
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
-
-
 import lombok.Data;
-
 
 @Data
 public class Users {

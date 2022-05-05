@@ -22,6 +22,9 @@ public class FileService {
     @Value("${app.upload.hana:${user.home}}")
     private String uploadDirHana;
 
+    @Value("${app.upload.hana:${user.home}}")
+    private String uploadDirHanamac;
+
     @Value("${app.upload.server:${user.home}}")
     private String uploadDirServer;
 
@@ -52,6 +55,8 @@ public class FileService {
             uploadDir = uploadDirJhjeon;
         } else if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(uploadDirTarget, "server")) {
             uploadDir = uploadDirServer;
+        } else if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(uploadDirTarget, "hanamac")) {
+            uploadDir = uploadDirHanamac;
         } else {
             uploadDir = uploadDirHana;
         }
