@@ -38,6 +38,16 @@ public class NetServiceImpl implements NetService {
 	}
 
 	@Override
+	public int updateNet(NetVo vo) {
+		return dao.updateNet(vo);
+	}
+
+	@Override
+	public int updateNetWithImg(NetVo vo) {
+		return dao.updateNetWithImg(vo);
+	}
+
+	@Override
 	public int updateRecommended(Map<String, Object> params) {
 		return dao.updateRecommended(params);
 	}

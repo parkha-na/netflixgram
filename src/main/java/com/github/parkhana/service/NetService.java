@@ -15,6 +15,10 @@ public interface NetService {
 
 	int insertRecommended(Map<String, Object> params);
 
+	int updateNet(NetVo vo);
+
+	int updateNetWithImg(NetVo vo);
+
 	int updateRecommended(Map<String, Object> params);
 	
 	List<NetVo> selectNetList(Map<String, Object> params);
