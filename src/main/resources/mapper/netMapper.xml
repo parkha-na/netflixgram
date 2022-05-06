@@ -9,7 +9,7 @@
 
 	<insert id="insertNet" parameterType="com.github.parkhana.vo.NetVo">
 		insert into board (contents, nickname, img, user_id, createdate, uploaddate)
-		values(#{contents}, #{nickname}, #{user_id}, #{img}, now(), now())
+		values(#{contents}, #{nickname}, #{img}, #{user_id}, now(), now())
 	</insert>
 
 	<insert id="insertReply" parameterType="com.github.parkhana.vo.ReplyVo">

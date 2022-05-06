@@ -231,8 +231,10 @@ public class NetController {
 				String newFileName = uuid.toString() + extension;
 				fileService.fileUpload(imgFile, newFileName);
 				vo.setImg(newFileName);
+				status = netService.updateNetWithImg(vo);
+			} else {
+				status = netService.updateNet(vo);
 			}
-			status = netService.updateNetWithImg(vo);
 		} else {
 			status = netService.updateNet(vo);
 		}

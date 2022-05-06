@@ -31,6 +31,9 @@
                                 <input type="hidden" name="id" value="${netVo.id}" />
                                 <input type="hidden" name="user_id" value="${loginUser.id}" />
                                 <input type="hidden" name="nickname" value="${loginUser.nickname}" />
+                                <div class="col-md-6">
+                                    <img src="/imageDownload?fileName=${netVo.img}" style="max-width: 300px;" onerror="this.src='assets/noimage.svg'" />
+                                </div>
                                 <div class="form-floating">
                                     <textarea class="form-control" id="contents" name="contents" placeholder="내용을 입력해 주세요" style="height: 12rem" data-sb-validations="required">${netVo.contents}</textarea>
                                     <label for="contents">내용</label>
@@ -40,7 +43,7 @@
                                         <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="imgFile" value="${netVo.img}" aria-describedby="inputGroupFileAddon01">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="imgFile" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                     </div>
                                 </div>

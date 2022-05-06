@@ -58,7 +58,8 @@
                 <div class="col-md-6" style="float: right;">
                 	<p align="right">
                 	<c:if test="${net.user_id eq loginUser.id}">
-                    	<a href="deleteNet?id=${net.id}">x</a>
+                        <a href="post?id=${net.id}">[수정]</a>
+                    	<a href="deleteNet?id=${net.id}">[삭제]</a>
                     </c:if>
                     </p>
                     <p>${net.contents}</p>
