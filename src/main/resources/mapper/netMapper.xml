@@ -13,8 +13,8 @@
 	</insert>
 
 	<insert id="insertReply" parameterType="com.github.parkhana.vo.ReplyVo">
-		INSERT into reply_board(replynickname, replycontents, board_id)
-		VALUES(#{replynickname}, #{replycontents}, #{board_id});
+		INSERT into reply_board(replynickname, replycontents, board_id, user_id)
+		VALUES(#{replynickname}, #{replycontents}, #{board_id}, #{user_id});
 	</insert>
 
 	<insert id="insertRecommended" parameterType="HashMap">

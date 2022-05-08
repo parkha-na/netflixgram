@@ -52,6 +52,7 @@ a:active {
 <%--	</tr>--%>
 	<tr>
 		<td>
+			<input type="hidden" name="user_id" value="${loginUser.sns_id}">
 			<input type="hidden" name="board_id" value="${b.id}">
 			<input type="hidden" name="replynickname" value="${loginUser.nickname}" />
 			<input type="text" name="replycontents">
